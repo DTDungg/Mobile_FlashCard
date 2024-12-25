@@ -65,7 +65,10 @@ flutter:
      - assets/images/fc-background.png
      - assets/images/flash-card-background.png
      - assets/images/flash-card.png
-  #   - images/a_dot_ham.jpeg
+     - assets/images/change-password.png
+     - assets/images/sign-in.png
+     - assets/images/sign-up.png
+     - assets/images/verify-code.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

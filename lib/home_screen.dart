@@ -131,18 +131,15 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(
-                    color: Define.strongPurple,
-                    width: 1
-                  )
-                ),
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(color: Define.strongPurple, width: 1)),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 15, bottom: 15),
                   child: Row(
                     children: [
-                       Expanded(
-                         child:Text(
+                      Expanded(
+                        child: Text(
                           'You have 20 cards need to be reviewed !!!',
                           style: GoogleFonts.rubikBubbles(
                             fontWeight: FontWeight.w400,
@@ -154,25 +151,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       SizedBox(width: 10),
                       ElevatedButton(
-
-                          onPressed:_nothing,
-                          child:Text(
-                            'Start now!!',
-                            style: GoogleFonts.rubikBubbles(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: Colors.white
-                            ),
-                          ),
-                        style:ElevatedButton.styleFrom(
-                          backgroundColor: Define.lightPurple,
-                          side: BorderSide(
-                            color: Define.strongPurple,
-                            width: 1
-                          ),
-                          elevation: 5
+                        onPressed: _nothing,
+                        child: Text(
+                          'Start now!!',
+                          style: GoogleFonts.rubikBubbles(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              color: Colors.white),
                         ),
-
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Define.lightPurple,
+                            side: BorderSide(
+                                color: Define.strongPurple, width: 1),
+                            elevation: 5),
                       )
                     ],
                   ),
