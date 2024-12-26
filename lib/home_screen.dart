@@ -88,7 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(width: 10),
           ],
         ),
-        body: Column(
+        body: SingleChildScrollView(
+            child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(15),
@@ -169,8 +170,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 100)
           ],
-        ));
+        )));
   }
 }

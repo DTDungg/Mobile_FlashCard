@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flash_card/bottom_bar.dart';
 import 'package:mobile_flash_card/flash_screen.dart';
 import 'package:mobile_flash_card/home_screen.dart';
 import 'package:mobile_flash_card/signin_screen.dart';
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SignIn_Screen()
+      home: BottomBar()
     );
   }
 }
