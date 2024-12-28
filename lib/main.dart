@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           suffixIconColor: Define.strongPurple
         )
       ),
-      home: SignIn_Screen()
+      home: FlashScreen()
     );
   }
 }

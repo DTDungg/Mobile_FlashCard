@@ -24,11 +24,18 @@ class _SignInState extends State<SignIn_Screen> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => BottomBar()),
       );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Đăng nhập thành công'),
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Đăng nhập thành công',
+          style: GoogleFonts.rubik(
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+              color: Define.strongPurple),
         ),
-      );
+        backgroundColor: Define.lightPurple,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      ));
     }
   }
 
@@ -66,9 +73,7 @@ class _SignInState extends State<SignIn_Screen> {
                               fontSize: 18,
                               color: Define.strongPurple),
                           hintText: 'example@gmail.com',
-                          hintStyle: TextStyle(
-                              color: Define.lightPurple
-                          ),
+                          hintStyle: TextStyle(color: Define.lightPurple),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide(
@@ -93,9 +98,7 @@ class _SignInState extends State<SignIn_Screen> {
                               fontSize: 18,
                               color: Define.strongPurple),
                           hintText: '************',
-                          hintStyle: TextStyle(
-                            color: Define.lightPurple
-                          ),
+                          hintStyle: TextStyle(color: Define.lightPurple),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
