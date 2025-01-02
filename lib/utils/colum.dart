@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_flash_card/utils/define.dart';
@@ -8,7 +7,7 @@ class Colum extends StatelessWidget {
   final Icon icon;
   final Color color;
 
-  const Colum({required this.height, required this.color, required this.icon});
+  const Colum({super.key, required this.height, required this.color, required this.icon});
 
   @override
   Widget build(BuildContext context) {
