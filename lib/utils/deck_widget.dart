@@ -1,72 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_flash_card/utils/define.dart';
+import 'package:mobile_flash_card/model/deck.dart';
 
-class Deck extends StatefulWidget {
-  final int id;
-  final String name;
-  final bool isPublic;
-  final String description;
+class DeckWidget extends StatefulWidget {
+  final Deck deck;
 
-  const Deck(
+  const DeckWidget(
       {super.key,
-      required this.id,
-      required this.name,
-      required this.description,
-      required this.isPublic});
+      required this.deck});
 
   @override
   State<StatefulWidget> createState() => _DeckState();
 }
 
-class _DeckState extends State<Deck> {
-  String _fortmatID(int id) {
-    if (id < 10)
-      return "00" + id.toString();
-    else if (id < 100)
-      return "0" + id.toString();
-    else
-      return id.toString();
-  }
+class _DeckState extends State<DeckWidget> {
+
+  void _nothing() {}
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 330,
+        width: 330,
         child: Card(
             elevation: 5,
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: Define.strongPurple,
-                  width: 1
-              ),
-              borderRadius: BorderRadius.circular(20)
-            ),
+                side: const BorderSide(color: Define.strongPurple, width: 1),
+                borderRadius: BorderRadius.circular(20)),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       SizedBox(
-                        child: Text(
-                          _fortmatID(widget.id) + ": " + widget.name,
-                          style: GoogleFonts.rubikBubbles(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Define.strongPurple),
-                        ),
                         width: 230,
+                        child: GestureDetector(
+                          onTap: _nothing,
+                          child: Text(
+                            "${widget.deck.fortmatID()}: ${widget.deck.name}",
+                            style: GoogleFonts.rubikBubbles(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w400,
+                                color: Define.strongPurple),
+                          ),
+                        ),
                       ),
-
                       Icon(
-                        widget.isPublic ? Icons.public : Icons.lock,
+                        widget.deck.isPublic ? Icons.public : Icons.lock,
                         color: Define.strongPurple,
                       ),
-                      SizedBox(width: 5,),
-                      Icon(
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      const Icon(
                         Icons.draw,
                         color: Define.strongPurple,
                       )
@@ -75,8 +64,8 @@ class _DeckState extends State<Deck> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Text(
-
-                      widget.description,
+                      overflow: TextOverflow.ellipsis,
+                      widget.deck.description,
                       textAlign: TextAlign.start,
                       style: GoogleFonts.rubik(
                           fontSize: 16,

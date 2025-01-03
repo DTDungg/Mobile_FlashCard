@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:mobile_flash_card/utils/define.dart';
@@ -25,11 +24,11 @@ class _BottomBarState extends State <BottomBar> {
   }
 
   final List<Widget> screens = [
-    Center(child: HomeScreen()),
-    Center(child: LibraryScreen()),
-    Center(child: HomeScreen()),
-    Center(child: HomeScreen()),
-    Center(child: HomeScreen()),
+    const Center(child: HomeScreen()),
+    const Center(child: LibraryScreen()),
+    const Center(child: HomeScreen()),
+    const Center(child: HomeScreen()),
+    const Center(child: HomeScreen()),
   ];
 
   @override
