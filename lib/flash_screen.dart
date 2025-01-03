@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_flash_card/signin_screen.dart';
+import 'package:mobile_flash_card/signIn_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
+import 'package:get/get.dart';
+
 
 class FlashScreen extends StatefulWidget {
-  FlashScreen({super.key});
+  const FlashScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _FlashScreenState();
@@ -13,9 +14,7 @@ class FlashScreen extends StatefulWidget {
 
 class _FlashScreenState extends State<FlashScreen> {
   void _start() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => SignIn_Screen()),
-    );
+    Get.to(const SignIn_Screen());
   }
 
   @override
@@ -25,16 +24,16 @@ class _FlashScreenState extends State<FlashScreen> {
         body: SingleChildScrollView(
             child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 200,
             ),
             Container(
                 width: 400,
                 height: 400,
-                child: Image(
+                child: const Image(
                     image:
                         AssetImage('assets/images/flash-card-background.png'))),
-            SizedBox(
+            const SizedBox(
               height: 200,
             ),
             ElevatedButton(
@@ -48,7 +47,7 @@ class _FlashScreenState extends State<FlashScreen> {
               ),
               style: ElevatedButton.styleFrom(
                   backgroundColor: Define.lightPurple,
-                  side: BorderSide(color: Define.strongPurple, width: 1),
+                  side: const BorderSide(color: Define.strongPurple, width: 1),
                   elevation: 5),
             )
           ],

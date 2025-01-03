@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:mobile_flash_card/utils/define.dart';
-import 'package:mobile_flash_card/library_screen.dart';
+import 'package:get/get.dart';
 
-import 'home_screen.dart';
-
+import '../home_screen.dart';
+import '../library_screen.dart';
 
 class BottomBar extends StatefulWidget{
-  const BottomBar({super.key});
+  final int index;
+  const BottomBar({super.key, required this.index});
 
   @override
   State<StatefulWidget> createState() => _BottomBarState();
@@ -15,29 +16,23 @@ class BottomBar extends StatefulWidget{
 
 class _BottomBarState extends State <BottomBar> {
 
-  int _selectedIndex = 2;
+  final List<Widget> screens = [
+    const HomeScreen(),
+    const LibraryScreen(),
+    const HomeScreen(),
+    const HomeScreen(),
+    const HomeScreen(),
+  ];
 
-  void _handleIndexChanged(int p1) {
-    setState(() {
-      _selectedIndex = p1;
-    });
+  void _handleIndexChanged(int index) {
+    Get.off(screens[index]);
   }
 
-  final List<Widget> screens = [
-    const Center(child: HomeScreen()),
-    const Center(child: LibraryScreen()),
-    const Center(child: HomeScreen()),
-    const Center(child: HomeScreen()),
-    const Center(child: HomeScreen()),
-  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: screens[_selectedIndex],
-      extendBody: true,
-      bottomNavigationBar: CrystalNavigationBar(
-        currentIndex: _selectedIndex,
+    return CrystalNavigationBar(
+        currentIndex: widget.index,
         unselectedItemColor: Define.strongPurple,
         backgroundColor: Define.strongBlue.withOpacity(0.3),
         outlineBorderColor: Define.strongPurple,
@@ -64,7 +59,6 @@ class _BottomBarState extends State <BottomBar> {
               selectedColor: Colors.white
           ),
         ],
-      ),
     );
   }
 

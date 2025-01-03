@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_flash_card/card_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:mobile_flash_card/model/deck.dart';
+import 'package:get/get.dart';
 
 class DeckWidget extends StatefulWidget {
   final Deck deck;
@@ -16,7 +18,9 @@ class DeckWidget extends StatefulWidget {
 
 class _DeckState extends State<DeckWidget> {
 
-  void _nothing() {}
+  void _goToDeckDetail() {
+    Get.to(CardScreen(idName: widget.deck.fortmatID() + ": "+ widget.deck.name, isPublic: widget.deck.isPublic));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +42,9 @@ class _DeckState extends State<DeckWidget> {
                       SizedBox(
                         width: 230,
                         child: GestureDetector(
-                          onTap: _nothing,
+                          onTap: _goToDeckDetail,
                           child: Text(
+                            overflow: TextOverflow.ellipsis,
                             "${widget.deck.fortmatID()}: ${widget.deck.name}",
                             style: GoogleFonts.rubikBubbles(
                                 fontSize: 24,

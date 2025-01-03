@@ -8,7 +8,7 @@ class BlueButton extends StatefulWidget{
 
   final String content;
 
-  BlueButton({required this.content});
+  const BlueButton({super.key, required this.content});
 
 }
 
@@ -17,6 +17,10 @@ class _BlueButtonState extends State<BlueButton>{
   Widget build(BuildContext context) {
     return ElevatedButton(
         onPressed: Define.nothing,
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Define.strongBlue,
+          side: const BorderSide(color: Define.strongPurple, width: 1),
+          elevation: 5),
         child: Text(
           widget.content,
           style: GoogleFonts.rubikBubbles(
@@ -24,10 +28,6 @@ class _BlueButtonState extends State<BlueButton>{
               fontWeight: FontWeight.w400,
               color: Define.strongPurple),
         ),
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Define.strongBlue,
-          side: BorderSide(color: Define.strongPurple, width: 1),
-          elevation: 5),
     );
   }
 

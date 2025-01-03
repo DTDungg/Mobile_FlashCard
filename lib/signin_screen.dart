@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_flash_card/bottom_bar.dart';
+import 'package:mobile_flash_card/home_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,7 +21,7 @@ class _SignInState extends State<SignIn_Screen> {
   void _login() {
     if (_formKey.currentState!.validate()) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => BottomBar()),
+        MaterialPageRoute(builder: (context) => HomeScreen()),
       );
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
