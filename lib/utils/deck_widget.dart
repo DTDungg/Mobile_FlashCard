@@ -19,7 +19,7 @@ class DeckWidget extends StatefulWidget {
 class _DeckState extends State<DeckWidget> {
 
   void _goToDeckDetail() {
-    Get.to(CardScreen(idName: widget.deck.fortmatID() + ": "+ widget.deck.name, isPublic: widget.deck.isPublic));
+    Get.to(CardScreen(deck: widget.deck));
   }
 
   @override

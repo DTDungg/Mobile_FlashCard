@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_flash_card/model/card.dart';
+import 'package:mobile_flash_card/model/deck.dart';
+import 'package:mobile_flash_card/review_screen.dart';
 import 'package:mobile_flash_card/utils/blue_button.dart';
 import 'package:mobile_flash_card/utils/card_widget.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:mobile_flash_card/utils/find_bar.dart';
 import 'package:mobile_flash_card/utils/bottom_bar.dart';
+import 'package:get/get.dart';
+
 
 class CardScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _CardScreenState();
 
-  final String idName;
-  final bool isPublic;
+  final Deck deck;
 
-  const CardScreen({super.key, required this.idName, required this.isPublic});
+  const CardScreen({super.key, required this.deck});
 }
 
 class _CardScreenState extends State<CardScreen> {
+  void _goToReview() {
+    Get.to(ReviewScreen(deck: widget.deck));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,14 +43,14 @@ class _CardScreenState extends State<CardScreen> {
                     width: 310,
                     child: Text(
                       overflow: TextOverflow.ellipsis,
-                      widget.idName,
+                      "${widget.deck.fortmatID()}: ${widget.deck.name}",
                       style: GoogleFonts.rubikBubbles(
                           fontWeight: FontWeight.w400,
                           fontSize: 32,
                           color: Define.strongPurple),
                     )),
                 Icon(
-                  widget.isPublic ? Icons.public : Icons.lock,
+                  widget.deck.isPublic ? Icons.public : Icons.lock,
                   color: Define.strongPurple,
                 )
               ],
@@ -52,22 +59,27 @@ class _CardScreenState extends State<CardScreen> {
             const SizedBox(
               height: 10,
             ),
-            const Row(
-              mainAxisAlignment:MainAxisAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 BlueButton(content: 'Delete', w: 84),
                 SizedBox(
                   width: 5,
                 ),
-                BlueButton(content: 'Add to',w: 83),
+                BlueButton(content: 'Add to', w: 83),
                 SizedBox(
                   width: 5,
                 ),
-                BlueButton(content: 'Review',w: 87),
+                GestureDetector(
+                    onTap: _goToReview,
+                    child: BlueButton(
+                      content: 'Review',
+                      w: 87,
+                    )),
                 SizedBox(
                   width: 5,
                 ),
-                BlueButton(content: 'Sort',w: 73)
+                BlueButton(content: 'Sort', w: 73)
               ],
             ),
             const SizedBox(
@@ -97,7 +109,8 @@ class _CardScreenState extends State<CardScreen> {
                           id: 1,
                           front: 'spoon a a a a a a a a a',
                           back: 'cái muỗng a a a â a  a  a  â  a a â a',
-                          describe: 'a thing use to hold food a a a a a aa a a a a a a a a a a a a a a a a a a a a',
+                          describe:
+                              'a thing use to hold food a a a a a aa a a a a a a a a a a a a a a a a a a a a',
                           type: 1)),
                   CardWidget(
                       card: CustomCard(
@@ -118,7 +131,8 @@ class _CardScreenState extends State<CardScreen> {
                           id: 1,
                           front: 'spoon',
                           back: 'cái muỗng',
-                          describe: 'a thing use to hold food a a a a a aa a a a a a a a a a a a a a a a a a a a a',
+                          describe:
+                              'a thing use to hold food a a a a a aa a a a a a a a a a a a a a a a a a a a a',
                           type: 4)),
                   CardWidget(
                       card: CustomCard(
