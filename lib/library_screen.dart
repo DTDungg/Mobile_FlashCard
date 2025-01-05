@@ -57,6 +57,14 @@ class _LibraryState extends State<LibraryScreen> {
                         DeckWidget(deck: Deck(id: 2, name: "Hello a a a a a a a aaa a a ", description: "how to say hello in many languages", isPublic: true)),
                         DeckWidget(deck: Deck(id: 3, name: "Hello", description: "how to say a a a a a a a a a a a a a a a a a a a a a a â  â  a  in many languages", isPublic: true)),
                         DeckWidget(deck: Deck(id: 4, name: "Hello", description: "how to say hello in many languages", isPublic: true)),
+                        DeckWidget(deck: deck),
+                        DeckWidget(deck: Deck(id: 2, name: "Hello a a a a a a a aaa a a ", description: "how to say hello in many languages", isPublic: true)),
+                        DeckWidget(deck: Deck(id: 3, name: "Hello", description: "how to say a a a a a a a a a a a a a a a a a a a a a a â  â  a  in many languages", isPublic: true)),
+                        DeckWidget(deck: Deck(id: 4, name: "Hello", description: "how to say hello in many languages", isPublic: true)),
+                        DeckWidget(deck: deck),
+                        DeckWidget(deck: Deck(id: 2, name: "Hello a a a a a a a aaa a a ", description: "how to say hello in many languages", isPublic: true)),
+                        DeckWidget(deck: Deck(id: 3, name: "Hello", description: "how to say a a a a a a a a a a a a a a a a a a a a a a â  â  a  in many languages", isPublic: true)),
+                        DeckWidget(deck: Deck(id: 4, name: "Hello", description: "how to say hello in many languages", isPublic: true)),
                       ],
                     )
                 ),
@@ -64,6 +72,7 @@ class _LibraryState extends State<LibraryScreen> {
             ),
           ),
         ),
+      extendBody: true,
       bottomNavigationBar: BottomBar(index: 1),
     );
   }

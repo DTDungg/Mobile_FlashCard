@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_flash_card/model/card.dart';
 import 'package:mobile_flash_card/utils/blue_button.dart';
+import 'package:mobile_flash_card/utils/card_widget.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:mobile_flash_card/utils/find_bar.dart';
 import 'package:mobile_flash_card/utils/bottom_bar.dart';
@@ -89,9 +91,123 @@ class _CardScreenState extends State<CardScreen> {
                   color: Define.strongPurple,
                   onPressed: Define.nothing,
                 )),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+                width: 330,
+                height: 620,
+                child: ListView(children: [
+                  CardWidget(
+                      card: CustomCard(
+                          id: 1,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 2,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 3,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 1,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 2,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 3,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 1,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 2,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 3,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 1,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 2,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 3,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 1,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 2,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                  CardWidget(
+                      card: CustomCard(
+                          id: 3,
+                          front: 'spoon',
+                          back: 'cái muỗng',
+                          describe: 'a thing use to hold food',
+                          type: 1)),
+                ]))
           ],
         ),
       ),
+      extendBody: true,
       bottomNavigationBar: const BottomBar(index: 1),
     );
   }
