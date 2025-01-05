@@ -5,23 +5,23 @@ import 'package:mobile_flash_card/utils/bottom_bar.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:flutter_flip_card/flutter_flip_card.dart';
 
-
-class ReviewScreen extends StatefulWidget{
+class ReviewScreen extends StatefulWidget {
   final Deck deck;
 
   const ReviewScreen({super.key, required this.deck});
 
   @override
   State<StatefulWidget> createState() => _ReviewScreenState();
-
 }
 
-class _ReviewScreenState extends State<ReviewScreen>{
-
+class _ReviewScreenState extends State<ReviewScreen> {
   void _stopReview() {
     Get.back();
   }
+
+  final controller = FlipCardController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,9 @@ class _ReviewScreenState extends State<ReviewScreen>{
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 50,),
+            const SizedBox(
+              height: 50,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -43,19 +45,81 @@ class _ReviewScreenState extends State<ReviewScreen>{
                           fontWeight: FontWeight.w400,
                           fontSize: 32,
                           color: Define.strongPurple),
-                    )
-                ),
+                    )),
                 GestureDetector(
-                  onTap: _stopReview,
-                child: BlueButton(content: 'STOP', w: 100))
+                    onTap: _stopReview,
+                    child: BlueButton(content: 'STOP', w: 100))
+              ],
+            ),
+            const SizedBox(
+              height: 200,
+            ),
+            GestureDetector(
+              onTap: controller.flipcard,
+                child: FlipCard(
+                    rotateSide: RotateSide.right,
+                    onTapFlipping: false,
+                    axis: FlipAxis.vertical,
+                    controller: controller,
+                    frontWidget: Center(
+                      child: Container(
+                        width: 330,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Define.strongPurple,
+                            width: 3
+                          ),
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Hello',
+                            style: GoogleFonts.rubikBubbles(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 32,
+                                color: Define.strongPurple),
+                          ),
+                        ),
+                      ),
+                    ),
+                    backWidget: Center(
+                      child: Container(
+                        width: 330,
+                        height: 200,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                color: Define.strongPurple,
+                                width: 3
+                            ),
+                            borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Xin chao',
+                            style: GoogleFonts.rubikBubbles(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 32,
+                                color: Define.strongPurple),
+                          ),
+                        ),
+                      ),
+                    ))),
+            const SizedBox(height: 100,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BlueButton(content: 'Back', w: 100),
+                const SizedBox(width: 100,),
+                BlueButton(content: 'Next', w: 100)
               ],
             )
           ],
         ),
       ),
-      bottomNavigationBar: const BottomBar(index:1),
+
     );
   }
-
-
 }
