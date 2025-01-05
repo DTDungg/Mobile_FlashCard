@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_flash_card/signIn_screen.dart';
+import 'package:mobile_flash_card/signin_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +14,7 @@ class FlashScreen extends StatefulWidget {
 
 class _FlashScreenState extends State<FlashScreen> {
   void _start() {
-    Get.to(const SignIn_Screen());
+    Get.to(const SignInScreen());
   }
 
   @override

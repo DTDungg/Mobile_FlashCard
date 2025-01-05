@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flash_card/home_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
-class SignIn_Screen extends StatefulWidget {
-  const SignIn_Screen({super.key});
+
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _SignInState();
 }
 
-class _SignInState extends State<SignIn_Screen> {
+class _SignInState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -20,9 +22,7 @@ class _SignInState extends State<SignIn_Screen> {
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
+      Get.offAll(HomeScreen());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           'Đăng nhập thành công',
@@ -46,14 +46,14 @@ class _SignInState extends State<SignIn_Screen> {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: 300,
-                child: Image(image: AssetImage('assets/images/sign-in.png')),
+                child: const Image(image: AssetImage('assets/images/sign-in.png')),
               ),
             ),
             Form(
@@ -72,10 +72,10 @@ class _SignInState extends State<SignIn_Screen> {
                               fontSize: 18,
                               color: Define.strongPurple),
                           hintText: 'example@gmail.com',
-                          hintStyle: TextStyle(color: Define.lightPurple),
+                          hintStyle: const TextStyle(color: Define.lightPurple),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                   color: Define.strongPurple, width: 1))),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -97,7 +97,7 @@ class _SignInState extends State<SignIn_Screen> {
                               fontSize: 18,
                               color: Define.strongPurple),
                           hintText: '************',
-                          hintStyle: TextStyle(color: Define.lightPurple),
+                          hintStyle: const TextStyle(color: Define.lightPurple),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -110,7 +110,7 @@ class _SignInState extends State<SignIn_Screen> {
                           ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                   color: Define.strongPurple, width: 1))),
                       obscureText: _isObscured,
                       validator: (value) {
@@ -123,15 +123,15 @@ class _SignInState extends State<SignIn_Screen> {
                   ),
                   ElevatedButton(
                     onPressed: _login,
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Define.lightPurple,
+                        side: const BorderSide(color: Define.strongPurple, width: 1),
+                        elevation: 5),
                     child: Text('Sign In',
                         style: GoogleFonts.rubikBubbles(
                             fontWeight: FontWeight.w400,
                             fontSize: 18,
                             color: Define.strongPurple)),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Define.lightPurple,
-                        side: BorderSide(color: Define.strongPurple, width: 1),
-                        elevation: 5),
                   )
                 ],
               ),
