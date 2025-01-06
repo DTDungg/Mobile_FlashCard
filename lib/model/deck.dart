@@ -3,13 +3,17 @@ class Deck{
     required this.id,
     required this.name,
     required this.isPublic,
-    required this.description
+    required this.description,
+    required this.like,
+    required this.userID
 });
 
   final int id;
   final String name;
   final bool isPublic;
   final String description;
+  final int like;
+  final int userID;
 
   String fortmatID() {
     if (id < 10) {
@@ -22,14 +26,16 @@ class Deck{
   }
 
   factory Deck.fromJson(Map<String, dynamic> json){
-    return Deck(id: json["id"], name: json["name"], isPublic: json["isPublic"], description: json["description"]);
+    return Deck(id: json["id"], name: json["name"], isPublic: json["isPublic"], description: json["description"], like: json["like"], userID: json["userID"]);
   }
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
     "isPublic": isPublic,
-    "description": description
+    "description": description,
+    "like": like,
+    "userID": userID
   };
 
 }

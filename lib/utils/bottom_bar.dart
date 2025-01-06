@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
+import 'package:mobile_flash_card/comunity_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +21,7 @@ class _BottomBarState extends State <BottomBar> {
     const HomeScreen(),
     const LibraryScreen(),
     const HomeScreen(),
-    const HomeScreen(),
+    const CommunityScreen(),
     const HomeScreen(),
   ];
 

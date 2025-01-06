@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flash_card/model/deck.dart';
 import 'package:mobile_flash_card/utils/blue_button.dart';
-import 'package:mobile_flash_card/utils/bottom_bar.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
@@ -48,7 +47,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     )),
                 GestureDetector(
                     onTap: _stopReview,
-                    child: BlueButton(content: 'STOP', w: 100))
+                    child: const BlueButton(content: 'STOP', w: 100))
               ],
             ),
             const SizedBox(
@@ -108,11 +107,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       ),
                     ))),
             const SizedBox(height: 100,),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 BlueButton(content: 'Back', w: 100),
-                const SizedBox(width: 100,),
+                SizedBox(width: 100,),
                 BlueButton(content: 'Next', w: 100)
               ],
             )
