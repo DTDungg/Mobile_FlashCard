@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import '../screen/community_screen.dart';
 import '../screen/home_screen.dart';
 import '../screen/library_screen.dart';
+import '../screen/game_screen.dart';
+
 
 class BottomBar extends StatefulWidget{
   final int index;
@@ -18,7 +20,7 @@ class BottomBar extends StatefulWidget{
 class _BottomBarState extends State <BottomBar> {
 
   final List<Widget> screens = [
-    const HomeScreen(),
+     GameScreen(),
     const LibraryScreen(),
     const HomeScreen(),
     const CommunityScreen(),

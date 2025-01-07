@@ -18,7 +18,7 @@ class TimeController extends GetxController {
         } else {
           _timer?.cancel();
           _timer = null;
-          remainingTime.value = initialTime.value; // Reset
+          //remainingTime.value = initialTime.value; // Reset
           isRunning.value = false;
         }
       },
@@ -38,8 +38,8 @@ class TimeController extends GetxController {
     isRunning.value = false;
   }
 
-  void setTime(int seconds) {
-    remainingTime.value = seconds;
-    initialTime.value = seconds;
+  void setTime() {
+    remainingTime.value += 30;
+    initialTime.value +=30;
   }
 }

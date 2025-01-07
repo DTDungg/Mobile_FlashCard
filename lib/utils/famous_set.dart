@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flash_card/screen/card_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
+
 
 import '../model/deck.dart';
 
@@ -34,14 +37,25 @@ class _SetState extends State<FamousSet> {
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        '${widget.deck.fortmatID()}: ${widget.deck.name}',
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.rubikBubbles(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            color: Define.strongPurple),
+                      child: GestureDetector(
+                        onTap: (){
+                          Get.to(CardScreen(deck: Deck(
+                              id: 2,
+                              name: "Hello a a a a a a a aaa a a ",
+                              description: "how to say hello in many languages",
+                              isPublic: true,
+                              like: 10,
+                              userID: 1)));
+                        },
+                        child: Text(
+                          '${widget.deck.fortmatID()}: ${widget.deck.name}',
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.rubikBubbles(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Define.strongPurple),
+                        ),
                       ),
                     ),
                     Row(
