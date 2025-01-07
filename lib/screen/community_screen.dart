@@ -6,7 +6,8 @@ import 'package:mobile_flash_card/utils/famous_set.dart';
 import 'package:mobile_flash_card/utils/find_bar.dart';
 import 'package:mobile_flash_card/utils/user_rank.dart';
 
-import 'model/deck.dart';
+import '../model/deck.dart';
+
 
 class CommunityScreen extends StatelessWidget {
   const CommunityScreen({super.key});

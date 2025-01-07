@@ -101,7 +101,7 @@ class _SetState extends State<FamousSet> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   SizedBox(
                     width: 40,
                     height: 40,
@@ -109,7 +109,7 @@ class _SetState extends State<FamousSet> {
                         onPressed: Define.nothing,
                         style: ElevatedButton.styleFrom(
                           elevation: 5,
-                            padding: EdgeInsets.only(left: 0),
+                            padding: const EdgeInsets.only(left: 0),
                             backgroundColor: Define.lightPurple,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),

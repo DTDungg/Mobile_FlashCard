@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_flash_card/card_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:mobile_flash_card/model/deck.dart';
 import 'package:get/get.dart';
+
+import '../screen/card_screen.dart';
 
 class DeckWidget extends StatefulWidget {
   final Deck deck;

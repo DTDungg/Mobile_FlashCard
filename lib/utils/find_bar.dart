@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 
 class FindBar extends StatefulWidget{
+  const FindBar({super.key});
+
   @override
   State<StatefulWidget> createState() => _FindBarState();
 }
@@ -9,13 +11,13 @@ class FindBar extends StatefulWidget{
 class _FindBarState extends State<FindBar>{
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 330,
       height: 45,
       child: TextField(
         cursorColor: Define.strongPurple,
         cursorWidth: 2,
-        style: TextStyle(color: Define.strongPurple, fontSize: 18),
+        style: const TextStyle(color: Define.strongPurple, fontSize: 18),
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,

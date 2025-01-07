@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Container(
+              child: SizedBox(
                 width: 40,
                 height: 40,
                 child: IconButton(
@@ -73,10 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
             elevation: 5,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Container(
+            child: const SizedBox(
               width: 40,
               height: 40,
-              child: const Image(image: AssetImage('assets/images/fc.png')),
+              child: Image(image: AssetImage('assets/images/fc.png')),
             ),
           ),
           const SizedBox(width: 10),

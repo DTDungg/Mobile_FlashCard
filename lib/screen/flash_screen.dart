@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_flash_card/signin_screen.dart';
+import 'package:mobile_flash_card/screen/signin_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:get/get.dart';
 
@@ -27,10 +27,10 @@ class _FlashScreenState extends State<FlashScreen> {
             const SizedBox(
               height: 200,
             ),
-            Container(
+            const SizedBox(
                 width: 400,
                 height: 400,
-                child: const Image(
+                child: Image(
                     image:
                         AssetImage('assets/images/flash-card-background.png'))),
             const SizedBox(
@@ -38,6 +38,10 @@ class _FlashScreenState extends State<FlashScreen> {
             ),
             ElevatedButton(
               onPressed: _start,
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Define.lightPurple,
+                  side: const BorderSide(color: Define.strongPurple, width: 1),
+                  elevation: 5),
               child: Text(
                 'START',
                 style: GoogleFonts.rubikBubbles(
@@ -45,10 +49,6 @@ class _FlashScreenState extends State<FlashScreen> {
                     fontSize: 16,
                     color: Colors.white),
               ),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Define.lightPurple,
-                  side: const BorderSide(color: Define.strongPurple, width: 1),
-                  elevation: 5),
             )
           ],
         )));

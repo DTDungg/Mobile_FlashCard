@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_flash_card/model/card.dart';
 import 'package:mobile_flash_card/model/deck.dart';
-import 'package:mobile_flash_card/review_screen.dart';
+import 'package:mobile_flash_card/screen/review_screen.dart';
 import 'package:mobile_flash_card/utils/blue_button.dart';
 import 'package:mobile_flash_card/utils/card_widget.dart';
 import 'package:mobile_flash_card/utils/define.dart';
@@ -62,24 +62,24 @@ class _CardScreenState extends State<CardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                BlueButton(content: 'Delete', w: 84),
-                SizedBox(
+                const BlueButton(content: 'Delete', w: 84),
+                const SizedBox(
                   width: 5,
                 ),
-                BlueButton(content: 'Add to', w: 83),
-                SizedBox(
+                const BlueButton(content: 'Add to', w: 83),
+                const SizedBox(
                   width: 5,
                 ),
                 GestureDetector(
                     onTap: _goToReview,
-                    child: BlueButton(
+                    child: const BlueButton(
                       content: 'Review',
                       w: 87,
                     )),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
-                BlueButton(content: 'Sort', w: 73)
+                const BlueButton(content: 'Sort', w: 73)
               ],
             ),
             const SizedBox(

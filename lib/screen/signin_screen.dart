@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flash_card/home_screen.dart';
+import 'package:mobile_flash_card/screen/home_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
@@ -22,7 +22,7 @@ class _SignInState extends State<SignInScreen> {
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      Get.offAll(HomeScreen());
+      Get.offAll(const HomeScreen());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           'Đăng nhập thành công',
@@ -49,11 +49,11 @@ class _SignInState extends State<SignInScreen> {
             const SizedBox(
               height: 50,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: SizedBox(
                 width: 300,
-                child: const Image(image: AssetImage('assets/images/sign-in.png')),
+                child: Image(image: AssetImage('assets/images/sign-in.png')),
               ),
             ),
             Form(

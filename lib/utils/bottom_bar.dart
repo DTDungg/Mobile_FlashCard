@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
-import 'package:mobile_flash_card/comunity_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:get/get.dart';
 
-import '../home_screen.dart';
-import '../library_screen.dart';
+import '../screen/community_screen.dart';
+import '../screen/home_screen.dart';
+import '../screen/library_screen.dart';
 
 class BottomBar extends StatefulWidget{
   final int index;
