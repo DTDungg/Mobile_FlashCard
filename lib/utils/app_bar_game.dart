@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flash_card/controller/heart_controller.dart';
+import 'package:mobile_flash_card/screen/game_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
@@ -33,7 +34,7 @@ class AppBarGame extends StatelessWidget {
         children: [
           isGaming
               ? IconButton(
-                  onPressed: () {},
+                  onPressed: () {Get.to(GameScreen());timeController.pauseTimer();},
                   icon: const Icon(
                     Icons.close,
                     color: Define.strongPurple,
