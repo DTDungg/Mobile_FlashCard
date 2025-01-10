@@ -22,7 +22,7 @@ class _SignInState extends State<SignInScreen> {
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      Get.offAll(const HomeScreen());
+      Get.offAll(const HomeScreen(userID: 2,));
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           'Đăng nhập thành công',

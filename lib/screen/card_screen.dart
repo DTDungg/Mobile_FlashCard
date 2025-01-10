@@ -62,24 +62,24 @@ class _CardScreenState extends State<CardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const BlueButton(content: 'Delete', w: 84),
+                const BlueButton(content: 'Delete', w: 100),
                 const SizedBox(
-                  width: 5,
+                  width: 15,
                 ),
-                const BlueButton(content: 'Add to', w: 83),
+                const BlueButton(content: 'Add to', w: 100),
                 const SizedBox(
-                  width: 5,
+                  width: 15,
                 ),
                 GestureDetector(
                     onTap: _goToReview,
                     child: const BlueButton(
                       content: 'Review',
-                      w: 87,
+                      w: 100,
                     )),
                 const SizedBox(
                   width: 5,
                 ),
-                const BlueButton(content: 'Sort', w: 73)
+                //const BlueButton(content: 'Sort', w: 73)
               ],
             ),
             const SizedBox(

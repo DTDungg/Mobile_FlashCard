@@ -3,11 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 
 class Colum extends StatelessWidget {
+  final int max;
   final double height;
   final Icon icon;
   final Color color;
 
-  const Colum({super.key, required this.height, required this.color, required this.icon});
+  const Colum({super.key, required this.height, required this.color, required this.icon, required this.max});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class Colum extends StatelessWidget {
         ),
         Container(
           width: 75,
-          height: height,
+          height: ((height * 180)/max) < 10 ? 10 : (height * 180)/max ,
           decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(10)

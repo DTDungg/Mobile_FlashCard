@@ -22,9 +22,9 @@ class _BottomBarState extends State <BottomBar> {
   final List<Widget> screens = [
      GameScreen(),
     const LibraryScreen(),
-    const HomeScreen(),
+    const HomeScreen(userID: 2,),
     const CommunityScreen(),
-    const HomeScreen(),
+    const HomeScreen(userID: 2,),
   ];
 
   void _handleIndexChanged(int index) {

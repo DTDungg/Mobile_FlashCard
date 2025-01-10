@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_flash_card/service/HomeScreenService.dart';
 import 'package:mobile_flash_card/utils/bottom_bar.dart';
 import 'package:mobile_flash_card/utils/colum.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 
+import '../model/chart.dart';
+
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.userID});
+  final int userID;
 
   @override
   State<StatefulWidget> createState() => _HomeScreenState();
@@ -13,6 +17,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   void _nothing() {}
+
+  late Future<List<Chart>> futureChart;
+
+  @override
+  void initState() {
+    super.initState();
+    futureChart = HomeScreenService().fetchAllChart();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,33 +104,57 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Define.strongPurple, width: 1),
               ),
-              child: const Padding(
-                padding: EdgeInsets.only(left: 15, right: 15),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Colum(
-                        height: 150,
-                        color: Define.strongBlue,
-                        icon: Icon(Icons.sentiment_very_satisfied)),
-                    SizedBox(width: 10),
-                    Colum(
-                        height: 80,
-                        color: Define.lightBlue,
-                        icon: Icon(Icons.sentiment_satisfied)),
-                    SizedBox(width: 10),
-                    Colum(
-                        height: 100,
-                        color: Define.lightPurple,
-                        icon: Icon(Icons.sentiment_neutral)),
-                    SizedBox(width: 10),
-                    Colum(
-                        height: 20,
-                        color: Define.strongBlue,
-                        icon: Icon(Icons.sentiment_very_dissatisfied))
-                  ],
-                ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: FutureBuilder<List<Chart>>(
+                    future: futureChart,
+                    builder: (context, snapshot) {
+                      //dữ liệu chưa về
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Lỗi : ${snapshot.error}');
+                      } else if (snapshot.hasData) {
+                        List<Chart> charts = snapshot.data!;
+                        var maxItem = charts.reduce((current, next) =>
+                        current.amount! > next.amount! ? current : next
+                        );
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Colum(
+                                max: maxItem.amount!,
+                                height: charts[3].amount!.toDouble(),
+                                color: Define.strongBlue,
+                                icon: const Icon(Icons.sentiment_very_satisfied)),
+                            const SizedBox(width: 10),
+                            Colum(
+                                max: maxItem.amount!,
+                                height: charts[2].amount!.toDouble(),
+                                color: Define.lightBlue,
+                                icon: const Icon(Icons.sentiment_satisfied)),
+                            const SizedBox(width: 10),
+                            Colum(
+                                max: maxItem.amount!,
+                                height: charts[1].amount!.toDouble(),
+                                color: Define.lightPurple,
+                                icon: const Icon(Icons.sentiment_neutral)),
+                            const SizedBox(width: 10),
+                            Colum(
+                                max: maxItem.amount!,
+                                height: charts[0].amount!.toDouble(),
+                                color: Define.strongBlue,
+                                icon: const Icon(Icons.sentiment_very_dissatisfied)
+                            )
+                          ],
+                        );
+                      } else {
+                        return const Text('nan demo nai');
+                      }
+                    }),
               ),
             ),
           ),
@@ -149,8 +185,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: _nothing,
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Define.lightPurple,
-                          side:
-                             const BorderSide(color: Define.strongPurple, width: 1),
+                          side: const BorderSide(
+                              color: Define.strongPurple, width: 1),
                           elevation: 5),
                       child: Text(
                         'Start now!!',
