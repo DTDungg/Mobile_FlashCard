@@ -156,8 +156,6 @@ class CommunityScreen extends StatelessWidget {
           ),
         ),
       ),
-      extendBody: true,
-      bottomNavigationBar: const BottomBar(index: 3),
     );
   }
 }

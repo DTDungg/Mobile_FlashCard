@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_flash_card/service/HomeScreenService.dart';
+import 'package:mobile_flash_card/model/user_from_db.dart';
+import 'package:mobile_flash_card/screen/review_screen.dart';
+import 'package:mobile_flash_card/service/home_screen_service.dart';
+import 'package:mobile_flash_card/service/user_service.dart';
 import 'package:mobile_flash_card/utils/bottom_bar.dart';
 import 'package:mobile_flash_card/utils/colum.dart';
 import 'package:mobile_flash_card/utils/define.dart';
+import 'package:get/get.dart';
 
 import '../model/chart.dart';
+import '../model/card_from_db.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.userID});
@@ -19,81 +24,104 @@ class _HomeScreenState extends State<HomeScreen> {
   void _nothing() {}
 
   late Future<List<Chart>> futureChart;
+  late Future<List<CardFromDB>> futureCard;
+  late Future<UserFromDB> futureUser;
 
   @override
   void initState() {
     super.initState();
-    futureChart = HomeScreenService().fetchAllChart();
+    futureChart = HomeScreenService().fetchAllChart(2);
+    futureCard = HomeScreenService().fetchAllCard(2);
+    futureUser = UserService().fetchUser(widget.userID);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Define.lightBlue,
-      appBar: AppBar(
-        backgroundColor: Define.strongBlue,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.local_fire_department),
-            color: Define.strongPurple,
-            onPressed: _nothing,
-          ),
-          Text(
-            '100',
-            style: GoogleFonts.rubikBubbles(
-                fontSize: 24, fontWeight: FontWeight.w400, color: Colors.white),
-          ),
-          const SizedBox(width: 10),
-          IconButton(
-            onPressed: _nothing,
-            icon: const Icon(Icons.favorite),
-            color: Define.strongPurple,
-          ),
-          Text(
-            '10',
-            style: GoogleFonts.rubikBubbles(
-                fontSize: 24, fontWeight: FontWeight.w400, color: Colors.white),
-          ),
-          const SizedBox(width: 10),
-          IconButton(
-            icon: const Icon(Icons.visibility),
-            color: Define.strongPurple,
-            onPressed: _nothing,
-          ),
-          Text(
-            '10',
-            style: GoogleFonts.rubikBubbles(
-                fontSize: 24, fontWeight: FontWeight.w400, color: Colors.white),
-          ),
-          const SizedBox(width: 20),
-          Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: IconButton(
-                  onPressed: _nothing,
-                  icon: const Icon(Icons.circle_notifications, size: 40),
-                  color: Define.strongPurple,
-                  padding: EdgeInsets.zero,
-                ),
-              )),
-          Card(
-            elevation: 5,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: const SizedBox(
-              width: 40,
-              height: 40,
-              child: Image(image: AssetImage('assets/images/fc.png')),
-            ),
-          ),
-          const SizedBox(width: 10),
-        ],
-      ),
+      appBar: AppBar(backgroundColor: Define.strongBlue, actions: [
+        FutureBuilder<UserFromDB>(
+            future: futureUser,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text('Lỗi : ${snapshot.error}');
+              } else if (snapshot.hasData) {
+                UserFromDB user = snapshot.data!;
+                return Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.local_fire_department),
+                      color: Define.strongPurple,
+                      onPressed: _nothing,
+                    ),
+                    Text(
+                      '${user.streak}',
+                      style: GoogleFonts.rubikBubbles(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white),
+                    ),
+                    const SizedBox(width: 10),
+                    IconButton(
+                      onPressed: _nothing,
+                      icon: const Icon(Icons.favorite),
+                      color: Define.strongPurple,
+                    ),
+                    Text(
+                      '${user.following}',
+                      style: GoogleFonts.rubikBubbles(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white),
+                    ),
+                    const SizedBox(width: 10),
+                    IconButton(
+                      icon: const Icon(Icons.visibility),
+                      color: Define.strongPurple,
+                      onPressed: _nothing,
+                    ),
+                    Text(
+                      '${user.follower}',
+                      style: GoogleFonts.rubikBubbles(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white),
+                    ),
+                    const SizedBox(width: 20),
+                    Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: IconButton(
+                            onPressed: _nothing,
+                            icon: const Icon(Icons.circle_notifications,
+                                size: 40),
+                            color: Define.strongPurple,
+                            padding: EdgeInsets.zero,
+                          ),
+                        )),
+                    Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: Image(image: AssetImage('${user.avatar}')),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                  ],
+                );
+              } else {
+                return const Text('nan demo nai');
+              }
+            })
+      ]),
       body: SingleChildScrollView(
           child: Column(
         children: [
@@ -119,8 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       } else if (snapshot.hasData) {
                         List<Chart> charts = snapshot.data!;
                         var maxItem = charts.reduce((current, next) =>
-                        current.amount! > next.amount! ? current : next
-                        );
+                            current.amount! > next.amount! ? current : next);
                         return Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 max: maxItem.amount!,
                                 height: charts[3].amount!.toDouble(),
                                 color: Define.strongBlue,
-                                icon: const Icon(Icons.sentiment_very_satisfied)),
+                                icon:
+                                    const Icon(Icons.sentiment_very_satisfied)),
                             const SizedBox(width: 10),
                             Colum(
                                 max: maxItem.amount!,
@@ -147,12 +175,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 max: maxItem.amount!,
                                 height: charts[0].amount!.toDouble(),
                                 color: Define.strongBlue,
-                                icon: const Icon(Icons.sentiment_very_dissatisfied)
-                            )
+                                icon: const Icon(
+                                    Icons.sentiment_very_dissatisfied))
                           ],
                         );
                       } else {
-                        return const Text('nan demo nai');
+                        return const Text('No data available');
                       }
                     }),
               ),
@@ -167,45 +195,74 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(
                     left: 10, right: 10, top: 15, bottom: 15),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'You have 20 cards need to be reviewed !!!',
-                        style: GoogleFonts.rubikBubbles(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          color: Define.strongPurple,
-                        ),
-                        softWrap: true,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: _nothing,
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Define.lightPurple,
-                          side: const BorderSide(
-                              color: Define.strongPurple, width: 1),
-                          elevation: 5),
-                      child: Text(
-                        'Start now!!',
-                        style: GoogleFonts.rubikBubbles(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: Colors.white),
-                      ),
-                    )
-                  ],
-                ),
+                child: FutureBuilder(
+                    future: futureCard,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }else if (snapshot.hasError) {
+                        return Text('lỗi ${snapshot.error}');
+                      } else if (snapshot.hasData && snapshot.data!=null) {
+
+                        List<CardFromDB> cards = snapshot.data!;
+                        int amount = cards.length;
+                        for (var card in cards) {
+                          print(
+                              'Front: ${card.front}, Back: ${card.back}, Description: ${card.description}, SetID: ${card.setId}');
+                        }
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'You have $amount cards need to be reviewed !!!',
+                                style: GoogleFonts.rubikBubbles(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  color: Define.strongPurple,
+                                ),
+                                softWrap: true,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            ElevatedButton(
+                              onPressed: amount == 0
+                                  ? _goToLib
+                                  : () => _gotoReview(cards),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Define.lightPurple,
+                                  side: const BorderSide(
+                                      color: Define.strongPurple, width: 1),
+                                  elevation: 5),
+                              child: Text(
+                                amount == 0 ? 'Go to library! ' : 'Start now!!',
+                                style: GoogleFonts.rubikBubbles(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    color: Colors.white),
+                              ),
+                            )
+                          ],
+                        );
+                      } else {
+                        return const Text('No cards available for review.');
+                      }
+                    }),
               ),
             ),
           ),
           const SizedBox(height: 100)
         ],
       )),
-      extendBody: true,
-      bottomNavigationBar: const BottomBar(index: 2),
     );
+  }
+
+  void _goToLib() {
+    Get.to(BottomBar(selectedIndex: 1, userID: widget.userID,));
+  }
+
+  void _gotoReview(List<CardFromDB> cards) {
+    Get.to(ReviewScreen(cards: cards, id: '', name: 'Card need to be review'));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_flash_card/service/deck_service.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:mobile_flash_card/model/deck.dart';
 import 'package:get/get.dart';
@@ -8,17 +9,17 @@ import '../screen/card_screen.dart';
 
 class DeckWidget extends StatefulWidget {
   final Deck deck;
+  final Function onDelete;
 
   const DeckWidget(
       {super.key,
-      required this.deck});
+      required this.deck, required this.onDelete});
 
   @override
   State<StatefulWidget> createState() => _DeckState();
 }
 
 class _DeckState extends State<DeckWidget> {
-
   void _goToDeckDetail() {
     Get.to(CardScreen(deck: widget.deck));
   }
@@ -41,19 +42,20 @@ class _DeckState extends State<DeckWidget> {
                     children: [
                       const SizedBox(width: 10),
                       SizedBox(
-                        width: 230,
+                        width: 180,
                         child: GestureDetector(
                           onTap: _goToDeckDetail,
                           child: Text(
                             overflow: TextOverflow.ellipsis,
                             "${widget.deck.fortmatID()}: ${widget.deck.name}",
                             style: GoogleFonts.rubikBubbles(
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w400,
                                 color: Define.strongPurple),
                           ),
                         ),
                       ),
+                      SizedBox(width:5),
                       Icon(
                         widget.deck.isPublic ? Icons.public : Icons.lock,
                         color: Define.strongPurple,
@@ -61,6 +63,19 @@ class _DeckState extends State<DeckWidget> {
                       const SizedBox(
                         width: 5,
                       ),
+                      IconButton(
+                          onPressed: () async{
+                            try {
+                              await DeckService().deleteDeck(widget.deck.id);
+                              widget.onDelete();
+                              Get.snackbar('Thành công', 'Bộ thẻ đã được xóa',
+                                  backgroundColor: Define.lightPurple, colorText: Colors.white);
+                            } catch (e) {
+                              Get.snackbar('Lỗi', 'Không thể xóa bộ thẻ',
+                                  backgroundColor: Colors.red, colorText: Colors.white);
+                            }
+                          },
+                          icon: Icon(Icons.delete, color: Define.strongPurple,size: 30,)),
                       const Icon(
                         Icons.draw,
                         color: Define.strongPurple,

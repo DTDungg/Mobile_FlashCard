@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_flash_card/model/deck_from_client.dart';
+import 'package:mobile_flash_card/service/deck_service.dart';
 import 'package:mobile_flash_card/utils/define.dart';
+import 'package:get/get.dart';
 
+class AddDeckDialog extends StatefulWidget {
+  final int userID;
 
-class AddDeckDialog extends StatefulWidget{
+  const AddDeckDialog({super.key, required this.userID});
   @override
   State<StatefulWidget> createState() => _AddDeckDialogState();
-  }
+}
 
-class _AddDeckDialogState extends State<AddDeckDialog>{
-
+class _AddDeckDialogState extends State<AddDeckDialog> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController describeController = TextEditingController();
-  TextEditingController isPublicController = TextEditingController();
   bool isPublic = true;
 
   @override
@@ -36,7 +39,6 @@ class _AddDeckDialogState extends State<AddDeckDialog>{
                 onTap: () {
                   setState(() {
                     isPublic = !isPublic;
-                    print("isPublic: $isPublic");
                   });
                 },
                 child: Icon(
@@ -46,7 +48,9 @@ class _AddDeckDialogState extends State<AddDeckDialog>{
               )
             ],
           ),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           TextField(
             controller: nameController,
             decoration: InputDecoration(
@@ -59,11 +63,9 @@ class _AddDeckDialogState extends State<AddDeckDialog>{
                   color: Define.strongPurple,
                 ),
                 border: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Define.strongPurple,
-                        width: 2),
-                    borderRadius:
-                    BorderRadius.circular(30))),
+                    borderSide:
+                        const BorderSide(color: Define.strongPurple, width: 2),
+                    borderRadius: BorderRadius.circular(30))),
           ),
           const SizedBox(
             height: 10,
@@ -81,11 +83,9 @@ class _AddDeckDialogState extends State<AddDeckDialog>{
                   color: Define.strongPurple,
                 ),
                 border: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Define.strongPurple,
-                        width: 2),
-                    borderRadius:
-                    BorderRadius.circular(30))),
+                    borderSide:
+                        const BorderSide(color: Define.strongPurple, width: 2),
+                    borderRadius: BorderRadius.circular(30))),
           )
         ],
       ),
@@ -103,16 +103,23 @@ class _AddDeckDialogState extends State<AddDeckDialog>{
           ),
         ),
         ElevatedButton(
-            onPressed: () {
-              // print('Name: ${nameController.text}');
-              // print('Name: ${describeController.text}');
-              Navigator.of(context).pop();
+            onPressed: () async {
+              final currentContext = context;
+              try {
+                await DeckService().createNewDeck(DeckFromClient(
+                    setName: nameController.text,
+                    setDescription: describeController.text,
+                    isPublic: isPublic,
+                    userId: widget.userID));
+                Navigator.of(currentContext).pop();
+              } catch (e) {
+                throw Exception('Failed to load data');
+              }
+
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: Define.lightPurple,
-                side: const BorderSide(
-                    color: Define.strongPurple,
-                    width: 1),
+                side: const BorderSide(color: Define.strongPurple, width: 1),
                 elevation: 5),
             child: Text('Save',
                 style: GoogleFonts.rubikBubbles(
@@ -122,6 +129,5 @@ class _AddDeckDialogState extends State<AddDeckDialog>{
                 )))
       ],
     );
-
-}}
-
+  }
+}

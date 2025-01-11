@@ -22,7 +22,7 @@ class CardScreen extends StatefulWidget {
 
 class _CardScreenState extends State<CardScreen> {
   void _goToReview() {
-    Get.to(ReviewScreen(deck: widget.deck));
+    //Get.to(ReviewScreen(id: widget.deck.fortmatID(), name: widget.deck.name,));
   }
 
   @override
@@ -216,7 +216,6 @@ class _CardScreenState extends State<CardScreen> {
         ),
       ),
       extendBody: true,
-      bottomNavigationBar: const BottomBar(index: 1),
     );
   }
 }

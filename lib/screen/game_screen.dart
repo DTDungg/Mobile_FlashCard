@@ -136,8 +136,6 @@ class _GameScreenState extends State<GameScreen> {
           ],
         ),
       ),
-      extendBody: true,
-      bottomNavigationBar: BottomBar(index: 0),
     );
   }
 }
