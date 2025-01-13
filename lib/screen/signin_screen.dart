@@ -7,6 +7,8 @@ import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
+import '../service/user_service.dart';
+
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
@@ -28,7 +30,7 @@ class _SignInState extends State<SignInScreen> {
           password: _passwordController.text);
 
       try {
-        int userId = await LoginService().login(user);
+        int userId = await UserService().login(user);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             'Đăng nhập thành công',

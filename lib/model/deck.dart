@@ -9,9 +9,9 @@ class Deck{
 });
 
   final int id;
-  final String name;
+  late final String name;
   final bool isPublic;
-  final String description;
+  late final String description;
   final int like;
   final int userID;
 

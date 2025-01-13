@@ -21,7 +21,7 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   void _stopReview() {
-    Get.back();
+    Get.back(result: true);
   }
 
   int index = 0;

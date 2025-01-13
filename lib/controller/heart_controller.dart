@@ -10,4 +10,8 @@ class HeartController extends GetxController{
   void addHeart(){
     heart += 5;
   }
+
+  void resetHeart(){
+    heart = 5 as RxInt;
+  }
 }

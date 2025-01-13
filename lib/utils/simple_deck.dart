@@ -7,8 +7,9 @@ import 'package:get/get.dart';
 class SimpleDeck extends StatelessWidget{
   final String name;
   final String describe;
+  final int deckID;
 
-  const SimpleDeck({super.key, required this.name, required this.describe});
+  const SimpleDeck({super.key, required this.name, required this.describe, required this.deckID});
 
   @override
   Widget build(BuildContext context) {

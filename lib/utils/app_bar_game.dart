@@ -34,7 +34,7 @@ class AppBarGame extends StatelessWidget {
         children: [
           isGaming
               ? IconButton(
-                  onPressed: () {Get.to(GameScreen());timeController.pauseTimer();},
+                  onPressed: () {Get.back();timeController.resetTimer();heartController.resetHeart();},
                   icon: const Icon(
                     Icons.close,
                     color: Define.strongPurple,

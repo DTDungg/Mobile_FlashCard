@@ -30,8 +30,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    futureChart = HomeScreenService().fetchAllChart(2);
-    futureCard = HomeScreenService().fetchAllCard(2);
+    futureChart = HomeScreenService().fetchAllChart(widget.userID);
+    futureCard = HomeScreenService().fetchAllCard(widget.userID);
+    futureUser = UserService().fetchUser(widget.userID);
+    // setState(() {
+    //   futureChart = HomeScreenService().fetchAllChart(widget.userID);
+    // });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    futureChart = HomeScreenService().fetchAllChart(widget.userID);
+    futureCard = HomeScreenService().fetchAllCard(widget.userID);
     futureUser = UserService().fetchUser(widget.userID);
   }
 
@@ -262,7 +273,12 @@ class _HomeScreenState extends State<HomeScreen> {
     Get.to(BottomBar(selectedIndex: 1, userID: widget.userID,));
   }
 
-  void _gotoReview(List<CardFromDB> cards) {
-    Get.to(ReviewScreen(cards: cards, id: '', name: 'Card need to be review'));
+  void _gotoReview(List<CardFromDB> cards) async{
+    final result = await Get.to(ReviewScreen(cards: cards, id: '', name: 'Card need to be review'));
+    if (result == true) {
+      setState(() {
+        futureCard = HomeScreenService().fetchAllCard(widget.userID);
+      });
+    }
   }
 }

@@ -8,6 +8,7 @@ import '../controller/heart_controller.dart';
 import '../controller/time_controller.dart';
 
 class PlayScreen extends StatefulWidget {
+
   PlayScreen({super.key});
 
   @override
@@ -64,12 +65,12 @@ class PlayState extends State<PlayScreen> {
               isGaming: true,
               heartController: heartController,
               timeController: timeController),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           SizedBox(
             width: 370,
             height: 750,
             child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 5,
                 mainAxisSpacing: 5,
@@ -87,7 +88,6 @@ class PlayState extends State<PlayScreen> {
                               : Colors.white,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                              //color: selectedIndexes.contains(index) ? (selectedIndexes.length == 2 && !_isMatchingPair(selectedIndexes[0], selectedIndexes[1]) ? Define.lightBlue : Colors.green) : Define.strongPurple,
                               color: gridItems[index] == null
                                   ? Define.lightBlue
                                   : selectedIndexes.contains(index)

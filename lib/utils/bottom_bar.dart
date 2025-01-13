@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
+import 'package:mobile_flash_card/screen/profile_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import '../screen/community_screen.dart';
 import '../screen/home_screen.dart';
@@ -29,11 +30,11 @@ class _BottomBarState extends State<BottomBar> {
 
   List<Widget> getScreens() {
     return [
-      const Center(child: GameScreen()),
+      Center(child: GameScreen(userID: _userID,)),
       Center(child: LibraryScreen(userID: _userID)),
       Center(child: HomeScreen(userID: _userID)),
-      const Center(child: CommunityScreen()),
-      Center(child: HomeScreen(userID: _userID)),
+      Center(child: CommunityScreen()),
+      Center(child: ProfileScreen(userID: _userID)),
     ];
   }
 

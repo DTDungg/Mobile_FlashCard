@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_flash_card/model/card.dart';
 import 'package:mobile_flash_card/model/deck.dart';
+import 'package:mobile_flash_card/screen/add_card_screen.dart';
+import 'package:mobile_flash_card/screen/library_screen.dart';
 import 'package:mobile_flash_card/screen/review_screen.dart';
+import 'package:mobile_flash_card/service/card_service.dart';
 import 'package:mobile_flash_card/utils/blue_button.dart';
 import 'package:mobile_flash_card/utils/card_widget.dart';
 import 'package:mobile_flash_card/utils/define.dart';
@@ -10,6 +13,8 @@ import 'package:mobile_flash_card/utils/find_bar.dart';
 import 'package:mobile_flash_card/utils/bottom_bar.dart';
 import 'package:get/get.dart';
 
+import '../controller/edit_deck_controller.dart';
+import '../model/card_from_db.dart';
 
 class CardScreen extends StatefulWidget {
   @override
@@ -21,8 +26,35 @@ class CardScreen extends StatefulWidget {
 }
 
 class _CardScreenState extends State<CardScreen> {
-  void _goToReview() {
-    //Get.to(ReviewScreen(id: widget.deck.fortmatID(), name: widget.deck.name,));
+  late Future<List<CardFromDB>> futureCard;
+  EditCardController listDelete = Get.put(EditCardController());
+
+  @override
+  void initState() {
+    super.initState();
+    futureCard = CardService().fetchAllCardOfDeck(widget.deck.id);
+  }
+
+  void _updateCards() {
+    setState(() {
+      futureCard = CardService().fetchAllCardOfDeck(widget.deck.id);
+    });
+  }
+
+  void _goToReview() async {
+    try {
+      final cards = await futureCard; // Chờ dữ liệu hoàn tất
+      Get.to(ReviewScreen(
+        cards: cards,
+        id: widget.deck.id.toString(),
+        name: widget.deck.name,
+      ));
+    } catch (error) {
+      //print('Error fetching cards for review: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Không thể lấy dữ liệu để review.')),
+      );
+    }
   }
 
   @override
@@ -37,10 +69,18 @@ class _CardScreenState extends State<CardScreen> {
               height: 20,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(width: 20),
+                IconButton(
+                    onPressed: () {
+                      Get.off(BottomBar(
+                          selectedIndex: 1, userID: widget.deck.userID));
+                    },
+                    icon: const Icon(Icons.arrow_back_ios,
+                        color: Define.strongPurple, size: 30)),
                 SizedBox(
-                    width: 310,
+                    width: 280,
                     child: Text(
                       overflow: TextOverflow.ellipsis,
                       "${widget.deck.fortmatID()}: ${widget.deck.name}",
@@ -52,23 +92,29 @@ class _CardScreenState extends State<CardScreen> {
                 Icon(
                   widget.deck.isPublic ? Icons.public : Icons.lock,
                   color: Define.strongPurple,
+                  size: 30,
                 )
               ],
             ),
-            FindBar(),
+            const FindBar(),
             const SizedBox(
               height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const BlueButton(content: 'Delete', w: 100),
+                GestureDetector(
+                    onTap: () {
+                      listDelete.deleteListItem();
+                      _updateCards();
+                    },
+                    child: const BlueButton(content: 'Delete', w: 100)),
                 const SizedBox(
-                  width: 15,
+                  width: 10,
                 ),
                 const BlueButton(content: 'Add to', w: 100),
                 const SizedBox(
-                  width: 15,
+                  width: 10,
                 ),
                 GestureDetector(
                     onTap: _goToReview,
@@ -92,10 +138,16 @@ class _CardScreenState extends State<CardScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Define.strongPurple, width: 2)),
-                child: const IconButton(
-                  icon: Icon(Icons.add),
+                child: IconButton(
+                  icon: const Icon(Icons.add),
                   color: Define.strongPurple,
-                  onPressed: Define.nothing,
+                  onPressed: () {
+                    Get.to(AddCardScreen(deck: widget.deck));
+                    setState(() {
+                      futureCard =
+                          CardService().fetchAllCardOfDeck(widget.deck.userID);
+                    });
+                  },
                 )),
             const SizedBox(
               height: 10,
@@ -103,115 +155,36 @@ class _CardScreenState extends State<CardScreen> {
             SizedBox(
                 width: 330,
                 height: 620,
-                child: ListView(children: [
-                  CardWidget(
-                      card: CustomCard(
-                          id: 1,
-                          front: 'spoon a a a a a a a a a',
-                          back: 'cái muỗng a a a â a  a  a  â  a a â a',
-                          describe:
-                              'a thing use to hold food a a a a a aa a a a a a a a a a a a a a a a a a a a a',
-                          type: 1)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 2,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 2)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 3,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: '',
-                          type: 3)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 1,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe:
-                              'a thing use to hold food a a a a a aa a a a a a a a a a a a a a a a a a a a a',
-                          type: 4)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 2,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 4)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 3,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 2)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 1,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 3)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 2,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 1)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 3,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 4)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 1,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 4)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 2,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 4)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 3,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 3)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 1,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 1)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 2,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 2)),
-                  CardWidget(
-                      card: CustomCard(
-                          id: 3,
-                          front: 'spoon',
-                          back: 'cái muỗng',
-                          describe: 'a thing use to hold food',
-                          type: 4)),
-                ]))
+                child: FutureBuilder(
+                    future: futureCard,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Text('Lỗi : ${snapshot.error}');
+                      } else if (snapshot.hasData) {
+                        List<CardFromDB> cards = snapshot.data!;
+                        if (cards.isEmpty) {
+                          return const Center(
+                            child: Text(
+                              "No card found",
+                              style: TextStyle(color: Define.strongPurple),
+                            ),
+                          );
+                        }
+                        return ListView.builder(
+                            itemCount: cards.length,
+                            itemBuilder: (context, index) {
+                              CardFromDB cardItem = cards[index];
+                              return CardWidget(
+                                card: cardItem,
+                                edit: _updateCards,
+                              );
+                            });
+                      } else {
+                        return const Text('No data available');
+                      }
+                    }))
           ],
         ),
       ),

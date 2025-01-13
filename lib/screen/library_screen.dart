@@ -98,102 +98,17 @@ class _LibraryState extends State<LibraryScreen> {
                             itemBuilder: (context, index) {
                               DeckFromDb deckItem = deck[index];
                               return DeckWidget(
-                                  deck: Deck(
-                                      id: deckItem.setId!,
-                                      name: deckItem.setName!,
-                                      isPublic: deckItem.isPublic!,
-                                      description: deckItem.setDescription!,
-                                      like: deckItem.liked!,
-                                      userID: deckItem.userId!),
+                                deck: Deck(
+                                    id: deckItem.setId!,
+                                    name: deckItem.setName!,
+                                    isPublic: deckItem.isPublic!,
+                                    description: deckItem.setDescription!,
+                                    like: deckItem.liked!,
+                                    userID: deckItem.userId!),
                                 onDelete: _updateDecks,
+                                edit: _updateDecks,
                               );
                             });
-
-                        //   ListView(
-                        //   children: [
-                        //     DeckWidget(
-                        //         deck: Deck(
-                        //             id: 2,
-                        //             name: "Hello a a a a a a a aaa a a ",
-                        //             description:
-                        //                 "how to say hello in many languages",
-                        //             isPublic: true,
-                        //             like: 10,
-                        //             userID: 1)),
-                        //     DeckWidget(
-                        //         deck: Deck(
-                        //             id: 3,
-                        //             name: "Hello",
-                        //             description:
-                        //                 "how to say a a a a a a a a a a a a a a a a a a a a a a â  â  a  in many languages",
-                        //             isPublic: true,
-                        //             like: 10,
-                        //             userID: 1)),
-                        //     DeckWidget(
-                        //         deck: Deck(
-                        //             id: 4,
-                        //             name: "Hello",
-                        //             description:
-                        //                 "how to say hello in many languages",
-                        //             isPublic: true,
-                        //             like: 10,
-                        //             userID: 1)),
-                        //     DeckWidget(
-                        //         deck: Deck(
-                        //             id: 2,
-                        //             name: "Hello a a a a a a a aaa a a ",
-                        //             description:
-                        //                 "how to say hello in many languages",
-                        //             isPublic: true,
-                        //             like: 10,
-                        //             userID: 1)),
-                        //     DeckWidget(
-                        //         deck: Deck(
-                        //             id: 3,
-                        //             name: "Hello",
-                        //             description:
-                        //                 "how to say a a a a a a a a a a a a a a a a a a a a a a â  â  a  in many languages",
-                        //             isPublic: true,
-                        //             like: 10,
-                        //             userID: 1)),
-                        //     DeckWidget(
-                        //         deck: Deck(
-                        //             id: 4,
-                        //             name: "Hello",
-                        //             description:
-                        //                 "how to say hello in many languages",
-                        //             isPublic: true,
-                        //             like: 10,
-                        //             userID: 1)),
-                        //     DeckWidget(
-                        //         deck: Deck(
-                        //             id: 2,
-                        //             name: "Hello a a a a a a a aaa a a ",
-                        //             description:
-                        //                 "how to say hello in many languages",
-                        //             isPublic: true,
-                        //             like: 10,
-                        //             userID: 1)),
-                        //     DeckWidget(
-                        //         deck: Deck(
-                        //             id: 3,
-                        //             name: "Hello",
-                        //             description:
-                        //                 "how to say a a a a a a a a a a a a a a a a a a a a a a â  â  a  in many languages",
-                        //             isPublic: true,
-                        //             like: 10,
-                        //             userID: 1)),
-                        //     DeckWidget(
-                        //         deck: Deck(
-                        //             id: 4,
-                        //             name: "Hello",
-                        //             description:
-                        //                 "how to say hello in many languages",
-                        //             isPublic: true,
-                        //             like: 10,
-                        //             userID: 1)),
-                        //   ],
-                        // );
                       } else {
                         return const Text('No data available');
                       }

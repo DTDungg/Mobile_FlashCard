@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_flash_card/controller/edit_deck_controller.dart';
+import 'package:mobile_flash_card/model/card_from_db.dart';
 import 'package:mobile_flash_card/utils/define.dart';
-
-import '../model/card.dart';
+import 'package:get/get.dart';
+import 'package:mobile_flash_card/utils/edit_card_dialog.dart';
 
 class CardWidget extends StatefulWidget {
-  final CustomCard card;
+  final CardFromDB card;
+  final VoidCallback edit;
 
-  const CardWidget({super.key, required this.card});
+  const CardWidget({super.key, required this.card, required this.edit});
 
   @override
   State<StatefulWidget> createState() => CardWidgetState();
@@ -15,6 +18,8 @@ class CardWidget extends StatefulWidget {
 
 class CardWidgetState extends State<CardWidget> {
   bool _isChecked = false;
+
+  EditCardController listDelete = Get.put(EditCardController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +42,11 @@ class CardWidgetState extends State<CardWidget> {
                       setState(() {
                         _isChecked = !_isChecked;
                       });
+                      if (_isChecked == true) {
+                        listDelete.addItem(widget.card.cardId!);
+                      } else {
+                        listDelete.deleteItem(widget.card.cardId!);
+                      }
                     },
                     child: Icon(
                       _isChecked
@@ -47,9 +57,9 @@ class CardWidgetState extends State<CardWidget> {
                   ),
                 ),
                 SizedBox(
-                  width: 230,
+                  width: 180,
                   child: Text(
-                    widget.card.front,
+                    widget.card.front!,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.rubikBubbles(
                         fontWeight: FontWeight.w400,
@@ -57,6 +67,20 @@ class CardWidgetState extends State<CardWidget> {
                         color: Define.strongPurple),
                   ),
                 ),
+                IconButton(
+                    onPressed: () async {
+                      await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return EditCardDialog(
+                                card: widget.card, edit: widget.edit);
+                          });
+                    },
+                    icon: const Icon(
+                      Icons.edit,
+                      color: Define.strongPurple,
+                      size: 25,
+                    )),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Icon(
@@ -80,7 +104,7 @@ class CardWidgetState extends State<CardWidget> {
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Text(
                 overflow: TextOverflow.ellipsis,
-                widget.card.back,
+                widget.card.back!,
                 style: GoogleFonts.rubik(
                     fontWeight: FontWeight.w500,
                     fontSize: 28,
@@ -88,11 +112,12 @@ class CardWidgetState extends State<CardWidget> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20,bottom: 10, top: 10),
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, bottom: 10, top: 10),
               child: Text(
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
-                widget.card.describe ?? "",
+                widget.card.description ?? "",
                 style: GoogleFonts.rubik(
                     fontWeight: FontWeight.w400,
                     fontSize: 20,

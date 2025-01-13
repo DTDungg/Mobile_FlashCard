@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flash_card/controller/user_controller.dart';
+import 'package:mobile_flash_card/model/user_from_db.dart';
+import 'package:mobile_flash_card/service/user_service.dart';
 import 'package:mobile_flash_card/utils/app_bar_game.dart';
-import 'package:mobile_flash_card/utils/bottom_bar.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
@@ -8,18 +10,36 @@ import 'package:mobile_flash_card/utils/simple_deck.dart';
 
 import '../controller/heart_controller.dart';
 import '../controller/time_controller.dart';
+import '../model/deck_from_db.dart';
+import '../service/deck_service.dart';
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key});
+  final int userID;
+  const GameScreen({super.key, required this.userID});
 
   @override
   State<StatefulWidget> createState() => _GameScreenState();
 }
 
 class _GameScreenState extends State<GameScreen> {
+
+  late Future<List<DeckFromDb>> futureDeck;
+  late Future<UserFromDB> userFromDB;
+  RxInt gift = 0.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDeck = DeckService().fetchAllDeck(widget.userID);
+    userFromDB = UserService().fetchUser(widget.userID);
+    userFromDB.then((user) {
+      gift.value = user.gift ?? 0;
+    });
+  }
   TimeController timeController = Get.put(TimeController());
   HeartController heartController = Get.put(HeartController());
-  RxInt gift = 100.obs;
+  UserIDController userIDController = Get.put(UserIDController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +53,7 @@ class _GameScreenState extends State<GameScreen> {
               heartController: heartController,
               timeController: timeController,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -53,19 +73,20 @@ class _GameScreenState extends State<GameScreen> {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Obx(() => Text(
-                      gift.toString(),
+                      gift.value.toString(),
                       style: GoogleFonts.rubikBubbles(
                           fontWeight: FontWeight.w400,
                           fontSize: 28,
                           color: Define.strongPurple),
-                    ))
+                    )
+                )
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     elevation: 5,
@@ -76,7 +97,7 @@ class _GameScreenState extends State<GameScreen> {
                         const BorderSide(color: Define.strongPurple, width: 1)),
                 onPressed: () {
                   timeController.setTime();
-                  gift--;
+                  gift.value--;
                 },
                 child: Text(
                   '1 gift for 30 more seconds',
@@ -120,18 +141,36 @@ class _GameScreenState extends State<GameScreen> {
             SizedBox(
               width: 380,
               height: 600,
-              child: ListView(
-                padding: EdgeInsets.only(top: 5, bottom: 80),
-                children: [
-                  SimpleDeck(name: 'Cooking', describe: 'cooking and kitchen relatedthings'),
-                  SimpleDeck(name: 'Cooking a a a a a a a a a a', describe: 'cooking and kitchen relatedthings'),
-                  SimpleDeck(name: 'Cooking a a a a a a a a aa a aa a a a a a', describe: 'cooking and kitchen relatedthings a a a a a a a a a'),
-                  SimpleDeck(name: 'Cooking', describe: 'cooking and kitchen relatedthings a a a a a a a a a aa '),
-                  SimpleDeck(name: 'Cooking', describe: 'cooking and kitchen relatedthings'),
-                  SimpleDeck(name: 'Cooking', describe: 'cooking and kitchen relatedthings'),
-                  SimpleDeck(name: 'Cooking a a a a a a a a aa a aa a a a a a', describe: 'cooking and kitchen relatedthings a a a a a a a a a'),
-                ],
-              ),
+              child: FutureBuilder<List<DeckFromDb>>(
+                  future: futureDeck,
+                  builder: (context, snapshot) {
+                    //dữ liệu chưa về
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Lỗi : ${snapshot.error}');
+                    } else if (snapshot.hasData) {
+                      List<DeckFromDb> deck = snapshot.data!;
+                      if (deck.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "No deck found",
+                            style: TextStyle(color: Define.strongPurple),
+                          ),
+                        );
+                      }
+                      return ListView.builder(
+                          itemCount: deck.length,
+                          itemBuilder: (context, index) {
+                            DeckFromDb deckItem = deck[index];
+                            return SimpleDeck(name: deckItem.setName!, describe: deckItem.setDescription!, deckID: deckItem.setId!,);
+                          });
+                    } else {
+                      return const Text('No data available');
+                    }
+                  }),
             )
           ],
         ),

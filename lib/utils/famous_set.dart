@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flash_card/controller/user_controller.dart';
+import 'package:mobile_flash_card/model/deck_from_db.dart';
+import 'package:mobile_flash_card/model/save_from_client.dart';
+import 'package:mobile_flash_card/model/user_from_db.dart';
 import 'package:mobile_flash_card/screen/card_screen.dart';
+import 'package:mobile_flash_card/service/deck_service.dart';
+import 'package:mobile_flash_card/service/save_service.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
@@ -9,16 +15,48 @@ import '../model/deck.dart';
 
 class FamousSet extends StatefulWidget {
   final Deck deck;
+  final VoidCallback like;
 
-  const FamousSet({super.key, required this.deck});
+  const FamousSet({super.key, required this.deck, required this.like});
 
   @override
   State<StatefulWidget> createState() => _SetState();
 }
 
 class _SetState extends State<FamousSet> {
+  UserIDController userIDController = Get.put(UserIDController());
+
+  UserFromDB u = UserFromDB();
+  UserIDController lU = Get.put(UserIDController());
+
+  int like = 1;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeUser();
+    like = widget.deck.like;
+  }
+
+  Future<void> _initializeUser() async {
+    try {
+      u = await lU.getUserById(widget.deck.userID) ?? UserFromDB();
+    } catch (e) {
+      print("Error initializing user: $e");
+    } finally {
+      setState(() {
+        isLoading = false; // Đánh dấu là đã tải xong
+      });
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator()); // Hiển thị biểu tượng loading
+    }
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Container(
@@ -65,14 +103,12 @@ class _SetState extends State<FamousSet> {
                             height: 40,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                    width: 1, color: Define.strongPurple)),
-                            child: const Image(
-                                image: AssetImage('assets/images/fc.png'))),
+                                border: Border.all(width: 1, color: Define.strongPurple)),
+                            child: Image(image: AssetImage('${u.avatar!}'))),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            'Doris',
+                            u.userName!,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.rubik(
                                 fontWeight: FontWeight.w500,
@@ -82,14 +118,18 @@ class _SetState extends State<FamousSet> {
                         )
                       ],
                     ),
-                    Text(
-                      widget.deck.description,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: GoogleFonts.rubik(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Define.strongPurple),
+                    Container(
+                      height: 50,
+                      child: Text(
+                        widget.deck.description,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+
+                        style: GoogleFonts.rubik(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Define.strongPurple),
+                      ),
                     )
                   ],
                 ),
@@ -105,7 +145,7 @@ class _SetState extends State<FamousSet> {
                     child: Row(
                       children: [
                         Text(
-                          widget.deck.like.toString(),
+                          like.toString(),
                           style: GoogleFonts.rubikBubbles(
                               fontWeight: FontWeight.w400,
                               fontSize: 24,
@@ -120,7 +160,14 @@ class _SetState extends State<FamousSet> {
                     width: 40,
                     height: 40,
                     child: ElevatedButton(
-                        onPressed: Define.nothing,
+                        onPressed:(){
+                          SaveService().CreateSave(SaveFromClient(userId: userIDController.userID.value, setId: widget.deck.id));
+                          DeckService().increaseLike(widget.deck.id);
+                          widget.like;
+                          setState(() {
+                            like ++;
+                          });
+                        },
                         style: ElevatedButton.styleFrom(
                           elevation: 5,
                             padding: const EdgeInsets.only(left: 0),
