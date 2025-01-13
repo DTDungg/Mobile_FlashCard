@@ -5,11 +5,12 @@ import 'package:mobile_flash_card/utils/add_deck_dialog.dart';
 import 'package:mobile_flash_card/utils/deck_widget.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:mobile_flash_card/model/deck.dart';
-import 'package:mobile_flash_card/utils/find_bar.dart';
+import 'package:searchfield/searchfield.dart';
+import 'package:get/get.dart';
+import '../controller/user_controller.dart';
 
 class LibraryScreen extends StatefulWidget {
-  const LibraryScreen({super.key, required this.userID});
-  final int userID;
+  const LibraryScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _LibraryState();
@@ -17,16 +18,18 @@ class LibraryScreen extends StatefulWidget {
 
 class _LibraryState extends State<LibraryScreen> {
   late Future<List<DeckFromDb>> futureDeck;
+  UserIDController userID = Get.put(UserIDController());
+  var selectedValue = null;
 
   @override
   void initState() {
     super.initState();
-    futureDeck = DeckService().fetchAllDeck(widget.userID);
+    futureDeck = DeckService().fetchAllDeck(userID.userID.value);
   }
 
   void _updateDecks() {
     setState(() {
-      futureDeck = DeckService().fetchAllDeck(widget.userID);
+      futureDeck = DeckService().fetchAllDeck(userID.userID.value);
     });
   }
 
@@ -42,7 +45,7 @@ class _LibraryState extends State<LibraryScreen> {
               const SizedBox(
                 height: 50,
               ),
-              const FindBar(),
+              //const FindBar(),
               const SizedBox(
                 height: 20,
               ),
@@ -60,10 +63,10 @@ class _LibraryState extends State<LibraryScreen> {
                       await showDialog(
                           context: context,
                           builder: (context) {
-                            return AddDeckDialog(userID: widget.userID);
+                            return AddDeckDialog(userID: userID.userID.value);
                           });
                       setState(() {
-                        futureDeck = DeckService().fetchAllDeck(widget.userID);
+                        futureDeck = DeckService().fetchAllDeck(userID.userID.value);
                       });
                     },
                   )),

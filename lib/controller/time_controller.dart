@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:mobile_flash_card/screen/game_result_screen.dart';
 
 class TimeController extends GetxController {
   var remainingTime = 120.obs; // Observable thời gian còn lại
@@ -20,6 +21,7 @@ class TimeController extends GetxController {
           _timer = null;
           //remainingTime.value = initialTime.value; // Reset
           isRunning.value = false;
+          Get.off(GameResult(isWin: false));
         }
       },
     );
@@ -36,6 +38,7 @@ class TimeController extends GetxController {
     _timer = null;
     remainingTime.value = initialTime.value;
     isRunning.value = false;
+
   }
 
   void setTime() {

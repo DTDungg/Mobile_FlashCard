@@ -75,7 +75,7 @@ class _CardScreenState extends State<CardScreen> {
                 IconButton(
                     onPressed: () {
                       Get.off(BottomBar(
-                          selectedIndex: 1, userID: widget.deck.userID));
+                          selectedIndex: 1));
                     },
                     icon: const Icon(Icons.arrow_back_ios,
                         color: Define.strongPurple, size: 30)),

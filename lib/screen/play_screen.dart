@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flash_card/model/card_from_db.dart';
+import 'package:mobile_flash_card/screen/game_result_screen.dart';
+import 'package:mobile_flash_card/service/card_service.dart';
 import 'package:mobile_flash_card/utils/app_bar_game.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:get/get.dart';
@@ -9,24 +12,19 @@ import '../controller/time_controller.dart';
 
 class PlayScreen extends StatefulWidget {
 
-  PlayScreen({super.key});
+  final int deckID;
+  PlayScreen({super.key, required this.deckID});
 
   @override
   State<StatefulWidget> createState() => PlayState();
 }
 
 class PlayState extends State<PlayScreen> {
-  final List<Map<String, String>> allPairs = [
-    {"word": "Apple", "meaning": "Quả táo"},
-    {"word": "Orange", "meaning": "Quả cam"},
-    {"word": "Banana a a a a a", "meaning": "Quả chuối"},
-    {"word": "Grape", "meaning": "Quả nho"},
-    {"word": "Pineapple", "meaning": "Quả dứa"},
-    {"word": "Watermelon", "meaning": "Quả dưa hấu a a a a"},
-    {"word": "Strawberry", "meaning": "Dâu tây"},
-    {"word": "Mango", "meaning": "Quả xoài"},
-    {"word": "Peach", "meaning": "Quả đào"},
-  ];
+
+  List<Map<String, String>> allPairs =[];
+
+  bool isPlaying = true;
+  bool isLoading = true;
 
   int? firstSelectedIndex;
   int? secondSelectedIndex;
@@ -37,25 +35,54 @@ class PlayState extends State<PlayScreen> {
   late List<String?> gridItems; // Lưới hiển thị từ và nghĩa
   List<int> selectedIndexes = []; // Các chỉ số ô đã chọn
 
+  Future<void> _initializeCard() async {
+    try {
+      allPairs = await CardService().playCardByID(widget.deckID);
+
+      setState(() {
+        // Khởi tạo lưới khi đã có dữ liệu
+        gridItems = List.filled(allPairs.length * 2, null);
+
+        for (int i = 0; i < allPairs.length; i++) {
+          gridItems[i * 2] = allPairs[i]["word"]; // Từ tiếng Anh
+          gridItems[i * 2 + 1] = allPairs[i]["meaning"]; // Nghĩa tiếng Việt
+        }
+
+        gridItems.shuffle(); // Trộn ngẫu nhiên
+        isLoading = false; // Đánh dấu là đã tải xong
+      });
+    } catch (e) {
+      print("Error initializing card: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+
   @override
-  void initState() {
+  void initState(){
     super.initState();
+    _initializeCard();
 
     // Khởi tạo lưới với 20 ô trống
-    gridItems = List.filled(18, null);
+    // gridItems = List.filled(18, null);
 
     // Thêm từ và nghĩa vào lưới
-    for (int i = 0; i < allPairs.length; i++) {
-      gridItems[i * 2] = allPairs[i]["word"]; // Từ tiếng Anh
-      gridItems[i * 2 + 1] = allPairs[i]["meaning"]; // Nghĩa tiếng Việt
-    }
+    // for (int i = 0; i < allPairs.length; i++) {
+    //   gridItems[i * 2] = allPairs[i]["word"]; // Từ tiếng Anh
+    //   gridItems[i * 2 + 1] = allPairs[i]["meaning"]; // Nghĩa tiếng Việt
+    // }
 
     // Trộn ngẫu nhiên danh sách
-    gridItems.shuffle();
+    // gridItems.shuffle();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator()); // Hiển thị biểu tượng loading
+    }
     timeController.startTimer();
     return Scaffold(
       backgroundColor: Define.lightBlue,
@@ -128,8 +155,17 @@ class PlayState extends State<PlayScreen> {
         if (_isMatchingPair(firstIndex, secondIndex)) {
           gridItems[firstIndex] = null; // Xóa từ
           gridItems[secondIndex] = null; // Xóa nghĩa
+
+          // Kiểm tra nếu tất cả ô đã được ghép thành công
+          if (gridItems.every((item) => item == null)) {
+            Get.off(GameResult(isWin: true)); // Chuyển sang màn hình chiến thắng
+          }
         } else {
+          // Nếu cặp không đúng, trừ điểm
           heartController.minus();
+          if (heartController.heart.value == 0) {
+            Get.off(GameResult(isWin: false)); // Chuyển sang màn hình thua
+          }
         }
 
         // Đặt lại chỉ số chọn sau 1 giây
@@ -141,6 +177,7 @@ class PlayState extends State<PlayScreen> {
       }
     });
   }
+
 
   bool _isMatchingPair(int index1, int index2) {
     String? value1 = gridItems[index1];

@@ -9,12 +9,12 @@ import 'package:mobile_flash_card/utils/colum.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:get/get.dart';
 
+import '../controller/user_controller.dart';
 import '../model/chart.dart';
 import '../model/card_from_db.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.userID});
-  final int userID;
+  const HomeScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _HomeScreenState();
@@ -26,13 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Chart>> futureChart;
   late Future<List<CardFromDB>> futureCard;
   late Future<UserFromDB> futureUser;
+  UserIDController userID = Get.put(UserIDController());
 
   @override
   void initState() {
     super.initState();
-    futureChart = HomeScreenService().fetchAllChart(widget.userID);
-    futureCard = HomeScreenService().fetchAllCard(widget.userID);
-    futureUser = UserService().fetchUser(widget.userID);
+    futureChart = HomeScreenService().fetchAllChart(userID.userID.value);
+    futureCard = HomeScreenService().fetchAllCard(userID.userID.value);
+    futureUser = UserService().fetchUser(userID.userID.value);
     // setState(() {
     //   futureChart = HomeScreenService().fetchAllChart(widget.userID);
     // });
@@ -41,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    futureChart = HomeScreenService().fetchAllChart(widget.userID);
-    futureCard = HomeScreenService().fetchAllCard(widget.userID);
-    futureUser = UserService().fetchUser(widget.userID);
+    futureChart = HomeScreenService().fetchAllChart(userID.userID.value);
+    futureCard = HomeScreenService().fetchAllCard(userID.userID.value);
+    futureUser = UserService().fetchUser(userID.userID.value);
   }
 
   @override
@@ -270,14 +271,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _goToLib() {
-    Get.to(BottomBar(selectedIndex: 1, userID: widget.userID,));
+    Get.to(BottomBar(selectedIndex: 1));
   }
 
   void _gotoReview(List<CardFromDB> cards) async{
     final result = await Get.to(ReviewScreen(cards: cards, id: '', name: 'Card need to be review'));
     if (result == true) {
       setState(() {
-        futureCard = HomeScreenService().fetchAllCard(widget.userID);
+        futureCard = HomeScreenService().fetchAllCard(userID.userID.value);
       });
     }
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flash_card/controller/user_controller.dart';
 import 'package:mobile_flash_card/model/user_from_client.dart';
-import 'package:mobile_flash_card/screen/home_screen.dart';
-import 'package:mobile_flash_card/service/login_service.dart';
 import 'package:mobile_flash_card/utils/bottom_bar.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +16,7 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInState extends State<SignInScreen> {
+  UserIDController userID = Get.put(UserIDController());
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -31,6 +31,9 @@ class _SignInState extends State<SignInScreen> {
 
       try {
         int userId = await UserService().login(user);
+
+        userID.userID.value = userId;
+        print("heloooooooooooooooooooooooooooooooooooo: tu api:${userId}, tu controller: ${userID.userID.value}");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             'Đăng nhập thành công',
@@ -44,7 +47,7 @@ class _SignInState extends State<SignInScreen> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ));
-        Get.offAll(BottomBar(selectedIndex: 2, userID: userId));
+        Get.offAll(BottomBar(selectedIndex: 2));
       } catch (e) {
         Get.snackbar('Đăng nhập thất bại', 'Kiểm tra lại email và mật khẩu');
       }

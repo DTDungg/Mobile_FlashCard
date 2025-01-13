@@ -3,7 +3,7 @@ import 'package:mobile_flash_card/model/user_from_db.dart';
 import 'package:mobile_flash_card/service/user_service.dart';
 
 class UserIDController extends GetxController {
-  RxInt userID = 2.obs;
+  var userID = 1.obs;
 
   List<UserFromDB> users = [];
 

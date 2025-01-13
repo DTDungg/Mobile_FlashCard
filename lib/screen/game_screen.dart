@@ -14,14 +14,15 @@ import '../model/deck_from_db.dart';
 import '../service/deck_service.dart';
 
 class GameScreen extends StatefulWidget {
-  final int userID;
-  const GameScreen({super.key, required this.userID});
+  const GameScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _GameScreenState();
 }
 
 class _GameScreenState extends State<GameScreen> {
+
+  UserIDController userID = Get.put(UserIDController());
 
   late Future<List<DeckFromDb>> futureDeck;
   late Future<UserFromDB> userFromDB;
@@ -30,8 +31,8 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void initState() {
     super.initState();
-    futureDeck = DeckService().fetchAllDeck(widget.userID);
-    userFromDB = UserService().fetchUser(widget.userID);
+    futureDeck = DeckService().fetchAllDeck(userID.userID.value);
+    userFromDB = UserService().fetchUser(userID.userID.value);
     userFromDB.then((user) {
       gift.value = user.gift ?? 0;
     });
@@ -97,6 +98,7 @@ class _GameScreenState extends State<GameScreen> {
                         const BorderSide(color: Define.strongPurple, width: 1)),
                 onPressed: () {
                   timeController.setTime();
+                  UserService().updateGift(userID.userID.value, -1);
                   gift.value--;
                 },
                 child: Text(
@@ -116,7 +118,8 @@ class _GameScreenState extends State<GameScreen> {
                         const BorderSide(color: Define.strongPurple, width: 1)),
                 onPressed: () {
                   heartController.addHeart();
-                  gift--;
+                  UserService().updateGift(userID.userID.value, -1);
+                  gift.value--;
                 },
                 child: Text(
                   '    1 gift for 5 more hearts    ',

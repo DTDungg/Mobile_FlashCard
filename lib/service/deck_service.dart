@@ -25,6 +25,20 @@ class DeckService{
     }
   }
 
+  Future<List<DeckFromDb>> deckOfOtherUser(int id) async{
+    final response = await http.get(Uri.parse('$baseUrl/otheruser/$id'));
+
+    if(response.statusCode == 200){
+      List<dynamic> body = jsonDecode(response.body);
+      return body.map((json)=> DeckFromDb.fromJson(json)).toList();
+    }if(response.statusCode == 404){
+      return List.empty();
+    }
+    else{
+      throw Exception("Lỗi: ${response.statusCode} - ${response.body}");
+    }
+  }
+
   Future createNewDeck(DeckFromClient deck) async{
     final response = await http.post(Uri.parse(baseUrl),
         headers: {'Content-Type': 'application/json'},

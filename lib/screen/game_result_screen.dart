@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flash_card/controller/user_controller.dart';
+import 'package:mobile_flash_card/service/user_service.dart';
 import 'package:mobile_flash_card/utils/app_bar_game.dart';
 import 'package:mobile_flash_card/utils/bottom_bar.dart';
 import 'package:mobile_flash_card/utils/define.dart';
@@ -112,7 +113,14 @@ class _GameResultState extends State<GameResult> {
                     side: const BorderSide(color: Define.strongPurple, width: 1),
                     elevation: 5),
                 onPressed: () {
-                  Get.off(BottomBar(selectedIndex: 0, userID: userID));
+                  if(widget.isWin)
+                    UserService().updateGift(userID, 2);
+                  Get.off(BottomBar(selectedIndex: 0));
+                  timeController.initialTime.value = 120;
+                  timeController.remainingTime.value = 120;
+                  timeController.pauseTimer();
+                  heartController.heart.value = 5;
+
                 },
                 child: Text('One more game',
                     style: GoogleFonts.rubikBubbles(

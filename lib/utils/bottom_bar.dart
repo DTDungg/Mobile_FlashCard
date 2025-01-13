@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
+import 'package:mobile_flash_card/controller/user_controller.dart';
 import 'package:mobile_flash_card/screen/profile_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
+import 'package:get/get.dart';
+
 import '../screen/community_screen.dart';
 import '../screen/home_screen.dart';
 import '../screen/library_screen.dart';
@@ -9,9 +12,8 @@ import '../screen/game_screen.dart';
 
 class BottomBar extends StatefulWidget {
   final int selectedIndex;
-  final int userID;
 
-  const BottomBar({super.key, required this.selectedIndex, required this.userID});
+  const BottomBar({super.key, required this.selectedIndex});
 
   @override
   State<StatefulWidget> createState() => _BottomBarState();
@@ -19,22 +21,23 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 2;
-  late int _userID = 2;
+  UserIDController userID = Get.put(UserIDController());
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.selectedIndex;
-    _userID = widget.userID;
+    print("heloooooooooooooooooooooooooooooooooooo: tu api:${userID.userID.value}, tu controller: ${userID.userID.value}");
+
   }
 
   List<Widget> getScreens() {
     return [
-      Center(child: GameScreen(userID: _userID,)),
-      Center(child: LibraryScreen(userID: _userID)),
-      Center(child: HomeScreen(userID: _userID)),
+      Center(child: GameScreen()),
+      Center(child: LibraryScreen()),
+      Center(child: HomeScreen()),
       Center(child: CommunityScreen()),
-      Center(child: ProfileScreen(userID: _userID)),
+      Center(child: ProfileScreen()),
     ];
   }
 

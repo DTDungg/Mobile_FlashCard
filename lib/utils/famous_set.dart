@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flash_card/controller/user_controller.dart';
-import 'package:mobile_flash_card/model/deck_from_db.dart';
 import 'package:mobile_flash_card/model/save_from_client.dart';
 import 'package:mobile_flash_card/model/user_from_db.dart';
 import 'package:mobile_flash_card/screen/card_screen.dart';
+import 'package:mobile_flash_card/screen/orther_user_screen.dart';
 import 'package:mobile_flash_card/service/deck_service.dart';
 import 'package:mobile_flash_card/service/save_service.dart';
 import 'package:mobile_flash_card/utils/define.dart';
@@ -55,7 +55,7 @@ class _SetState extends State<FamousSet> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return Center(child: CircularProgressIndicator()); // Hiển thị biểu tượng loading
+      return const Center(child: CircularProgressIndicator()); // Hiển thị biểu tượng loading
     }
     return Padding(
       padding: const EdgeInsets.only(top: 10),
@@ -77,13 +77,7 @@ class _SetState extends State<FamousSet> {
                       alignment: Alignment.centerLeft,
                       child: GestureDetector(
                         onTap: (){
-                          Get.to(CardScreen(deck: Deck(
-                              id: 2,
-                              name: "Hello a a a a a a a aaa a a ",
-                              description: "how to say hello in many languages",
-                              isPublic: true,
-                              like: 10,
-                              userID: 1)));
+                          Get.to(CardScreen(deck: widget.deck));
                         },
                         child: Text(
                           '${widget.deck.fortmatID()}: ${widget.deck.name}',
@@ -96,35 +90,37 @@ class _SetState extends State<FamousSet> {
                         ),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(width: 1, color: Define.strongPurple)),
-                            child: Image(image: AssetImage('${u.avatar!}'))),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            u.userName!,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.rubik(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                color: Define.strongPurple),
-                          ),
-                        )
-                      ],
+                    GestureDetector(
+                      onTap: (){Get.to(OtherUserScreen(otherUserId: u.userID!));},
+                      child: Row(
+                        children: [
+                          Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(width: 1, color: Define.strongPurple)),
+                              child: Image(image: AssetImage(u.avatar!))),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              u.userName!,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.rubik(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Define.strongPurple),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 50,
                       child: Text(
                         widget.deck.description,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
-
                         style: GoogleFonts.rubik(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,

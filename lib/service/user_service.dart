@@ -42,4 +42,11 @@ class UserService{
       throw Exception("Lỗi: ${response.statusCode} - ${response.body}");
     }
   }
+  
+  Future<void> updateGift(int id, int sl) async{
+    final response = await http.put(Uri.parse('$baseUrl/gift/$id&$sl'));
+
+    if(response.statusCode != 200 && response.statusCode != 404)
+      throw Exception("Lỗi: ${response.statusCode} - ${response.body}");
+  }
 }

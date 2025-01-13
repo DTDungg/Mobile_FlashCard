@@ -16,7 +16,7 @@ class SimpleDeck extends StatelessWidget{
     return Padding(
       padding: const EdgeInsets.all(5),
       child: GestureDetector(
-        onTap: (){Get.to(PlayScreen());},
+        onTap: (){Get.to(PlayScreen(deckID: deckID));},
         child: Container(
           width: 300,
           decoration: BoxDecoration(

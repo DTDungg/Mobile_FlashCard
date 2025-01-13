@@ -48,5 +48,15 @@ class CardService{
         body: json.encode(card.toJson()));
     if(response.statusCode != 200 && response.statusCode != 404) {
       throw Exception('Failed to load data');
-    }  }
+    }
+  }
+
+  Future<List<Map<String, String>>> playCardByID(int id) async{
+    List<CardFromDB>  cards = await fetchAllCardOfDeck(id);
+    List<Map<String, String>> result =[];
+    for(var item in cards){
+      result.add({"word": "${item.front}", "meaning": "${item.back}"});
+    }
+    return result;
+  }
 }
