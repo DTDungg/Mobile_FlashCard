@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flash_card/controller/user_controller.dart';
 import 'package:mobile_flash_card/model/card_from_db.dart';
 import 'package:mobile_flash_card/service/card_service.dart';
+import 'package:mobile_flash_card/service/user_service.dart';
 import 'package:mobile_flash_card/utils/blue_button.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,8 +22,11 @@ class ReviewScreen extends StatefulWidget {
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
+  UserIDController userIDController = Get.put(UserIDController());
+
   void _stopReview() {
     Get.back(result: true);
+    UserService().updateStreak(userIDController.userID.value);
   }
 
   int index = 0;

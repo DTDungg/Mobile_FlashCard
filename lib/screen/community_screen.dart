@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flash_card/controller/search_controller.dart';
 import 'package:mobile_flash_card/controller/user_controller.dart';
 import 'package:mobile_flash_card/model/deck_from_db.dart';
 import 'package:mobile_flash_card/service/deck_service.dart';
@@ -22,14 +23,14 @@ class CommunityScreen extends StatefulWidget {
 class _CommunityScreenState extends State<CommunityScreen> {
   late Future<List<UserFromDB>> futureUserRank;
   late Future<List<DeckFromDb>> futureDeck;
-
+  late Future<List<DeckFromDb>> decks;
   UserIDController userID = Get.put(UserIDController());
-
+  SearchXController searchXController = Get.put(SearchXController());
   @override
   void initState() {
     super.initState();
     futureUserRank = UserService().topUser();
-    futureDeck = DeckService().getFamousSet(userID.userID.value);
+    futureDeck = decks = DeckService().getFamousSet(userID.userID.value);
   }
 
   void upDateScreen() {
@@ -37,6 +38,23 @@ class _CommunityScreenState extends State<CommunityScreen> {
       futureUserRank = UserService().topUser();
       futureDeck = DeckService().getFamousSet(userID.userID.value);
     });
+  }
+
+  void search() async{
+    String text = searchXController.community.trim().toLowerCase();
+    if (text.isEmpty) {
+      setState(() {
+        futureDeck = decks;
+      });
+    } else {
+      // Giải quyết `decks` và lọc kết quả tìm kiếm
+      final resolvedDecks = await decks;
+      setState(() {
+        futureDeck = Future.value(
+          resolvedDecks.where((deck) => deck.setName!.toLowerCase().contains(text)).toList(),
+        );
+      });
+    }
   }
 
   @override
@@ -110,7 +128,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     color: Define.strongPurple),
               ),
               const SizedBox(height: 5),
-              FindBar(),
+              FindBar(update: search, index: 3),
               const SizedBox(height: 10),
               Container(
                 width: 345,

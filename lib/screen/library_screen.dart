@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flash_card/controller/search_controller.dart';
 import 'package:mobile_flash_card/model/deck_from_db.dart';
 import 'package:mobile_flash_card/service/deck_service.dart';
 import 'package:mobile_flash_card/utils/add_deck_dialog.dart';
 import 'package:mobile_flash_card/utils/deck_widget.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:mobile_flash_card/model/deck.dart';
-import 'package:searchfield/searchfield.dart';
+import 'package:mobile_flash_card/utils/find_bar.dart';
 import 'package:get/get.dart';
 import '../controller/user_controller.dart';
 
@@ -20,11 +21,13 @@ class _LibraryState extends State<LibraryScreen> {
   late Future<List<DeckFromDb>> futureDeck;
   UserIDController userID = Get.put(UserIDController());
   var selectedValue = null;
+  SearchXController searchController = Get.put(SearchXController());
+  late Future<List<DeckFromDb>> decks ;
 
   @override
   void initState() {
     super.initState();
-    futureDeck = DeckService().fetchAllDeck(userID.userID.value);
+    futureDeck = decks = DeckService().fetchAllDeck(userID.userID.value);
   }
 
   void _updateDecks() {
@@ -32,6 +35,25 @@ class _LibraryState extends State<LibraryScreen> {
       futureDeck = DeckService().fetchAllDeck(userID.userID.value);
     });
   }
+
+  void search() async {
+    String text = searchController.library.trim().toLowerCase();
+    // Nếu ô tìm kiếm trống, hiển thị lại toàn bộ danh sách
+    if (text.isEmpty) {
+      setState(() {
+        futureDeck = decks;
+      });
+    } else {
+      // Giải quyết `decks` và lọc kết quả tìm kiếm
+      final resolvedDecks = await decks;
+      setState(() {
+        futureDeck = Future.value(
+          resolvedDecks.where((deck) => deck.setName!.toLowerCase().contains(text)).toList(),
+        );
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +67,7 @@ class _LibraryState extends State<LibraryScreen> {
               const SizedBox(
                 height: 50,
               ),
-              //const FindBar(),
+              FindBar(update: search, index: 1),
               const SizedBox(
                 height: 20,
               ),

@@ -49,4 +49,11 @@ class UserService{
     if(response.statusCode != 200 && response.statusCode != 404)
       throw Exception("Lỗi: ${response.statusCode} - ${response.body}");
   }
+
+  Future<void> updateStreak(int userID) async{
+    final response = await http.post(Uri.parse('$baseUrl/streak/$userID'));
+    if(response.statusCode != 200 || response.statusCode != 404){
+      throw Exception("Lỗi: ${response.statusCode} - ${response.body}");
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_flash_card/controller/search_controller.dart';
 import 'package:mobile_flash_card/model/card.dart';
 import 'package:mobile_flash_card/model/deck.dart';
 import 'package:mobile_flash_card/screen/add_card_screen.dart';
@@ -28,11 +29,13 @@ class CardScreen extends StatefulWidget {
 class _CardScreenState extends State<CardScreen> {
   late Future<List<CardFromDB>> futureCard;
   EditCardController listDelete = Get.put(EditCardController());
+  SearchXController searchXController = Get.put(SearchXController());
+  late Future<List<CardFromDB>> cards ;
 
   @override
   void initState() {
     super.initState();
-    futureCard = CardService().fetchAllCardOfDeck(widget.deck.id);
+    futureCard = cards = CardService().fetchAllCardOfDeck(widget.deck.id);
   }
 
   void _updateCards() {
@@ -54,6 +57,23 @@ class _CardScreenState extends State<CardScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Không thể lấy dữ liệu để review.')),
       );
+    }
+  }
+
+  Future<void> search() async {
+    String text = searchXController.card.trim().toLowerCase();
+    if (text.isEmpty) {
+      setState(() {
+        futureCard = cards;
+      });
+    } else {
+      // Giải quyết `decks` và lọc kết quả tìm kiếm
+      final resolvedCards = await cards;
+      setState(() {
+        futureCard = Future.value(
+          resolvedCards.where((card) => card.front!.toLowerCase().contains(text)).toList(),
+        );
+      });
     }
   }
 
@@ -96,7 +116,7 @@ class _CardScreenState extends State<CardScreen> {
                 )
               ],
             ),
-            const FindBar(),
+            FindBar(update: search, index: 2),
             const SizedBox(
               height: 10,
             ),

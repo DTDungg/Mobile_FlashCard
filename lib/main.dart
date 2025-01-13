@@ -6,9 +6,12 @@ import 'package:mobile_flash_card/screen/flash_screen.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:get/get.dart';
 
+import 'controller/search_controller.dart';
+
 void main() {
   HttpOverrides.global = MyHttpOverrides();
   Get.put(UserIDController());
+  Get.put(SearchXController());
   runApp(GetMaterialApp(
       theme: ThemeData(
           inputDecorationTheme:
