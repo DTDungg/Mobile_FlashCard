@@ -4,6 +4,7 @@ import 'package:mobile_flash_card/model/card_from_db.dart';
 import 'package:mobile_flash_card/service/card_service.dart';
 import 'package:mobile_flash_card/service/user_service.dart';
 import 'package:mobile_flash_card/utils/blue_button.dart';
+import 'package:mobile_flash_card/utils/bottom_bar.dart';
 import 'package:mobile_flash_card/utils/define.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   UserIDController userIDController = Get.put(UserIDController());
 
   void _stopReview() {
-    Get.back(result: true);
+    Get.off(BottomBar(selectedIndex: 2));
     UserService().updateStreak(userIDController.userID.value);
   }
 

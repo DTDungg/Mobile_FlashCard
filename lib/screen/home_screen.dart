@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _gotoReview(List<CardFromDB> cards) async{
-    final result = await Get.to(ReviewScreen(cards: cards, id: '', name: 'Card need to be review'));
+    final result = await Get.off(ReviewScreen(cards: cards, id: '', name: 'Card need to be review'));
     if (result == true) {
       setState(() {
         futureCard = HomeScreenService().fetchAllCard(userID.userID.value);
