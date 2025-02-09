@@ -36,7 +36,7 @@ class _SignInState extends State<SignInScreen> {
         print("heloooooooooooooooooooooooooooooooooooo: tu api:${userId}, tu controller: ${userID.userID.value}");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            'Đăng nhập thành công',
+            'Login successful!!!',
             style: GoogleFonts.rubik(
                 fontWeight: FontWeight.w400,
                 fontSize: 18,
@@ -49,7 +49,7 @@ class _SignInState extends State<SignInScreen> {
         ));
         Get.offAll(BottomBar(selectedIndex: 2));
       } catch (e) {
-        Get.snackbar('Đăng nhập thất bại', 'Kiểm tra lại email và mật khẩu');
+        Get.snackbar('Login failure', 'Please double-check your email and password',backgroundColor: Define.lightBlue, colorText: Define.strongPurple);
       }
     }
   }

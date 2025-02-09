@@ -49,7 +49,7 @@ class _CardScreenState extends State<CardScreen> {
       final cards = await futureCard; // Chờ dữ liệu hoàn tất
       Get.to(ReviewScreen(
         cards: cards,
-        id: widget.deck.id.toString(),
+        id: widget.deck.fortmatID(),
         name: widget.deck.name,
       ));
     } catch (error) {

@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w400,
                           color: Colors.white),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 25),
                     IconButton(
                       onPressed: _nothing,
                       icon: const Icon(Icons.favorite),
@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w400,
                           color: Colors.white),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 25),
                     IconButton(
                       icon: const Icon(Icons.visibility),
                       color: Define.strongPurple,
@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w400,
                           color: Colors.white),
                     ),
-                    const SizedBox(width: 20),
+                    const SizedBox(width: 25),
                     Card(
                         elevation: 5,
                         shape: RoundedRectangleBorder(

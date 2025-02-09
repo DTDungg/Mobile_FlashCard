@@ -26,7 +26,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   UserIDController userIDController = Get.put(UserIDController());
 
   void _stopReview() {
-    Get.off(BottomBar(selectedIndex: 2));
+    Get.back();
     UserService().updateStreak(userIDController.userID.value);
   }
 

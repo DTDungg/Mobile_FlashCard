@@ -5,5 +5,6 @@ Mobile app project - front-end
 - Animation
 - check email, pass
 - check all file landscape
+- your streak has ended
 
 

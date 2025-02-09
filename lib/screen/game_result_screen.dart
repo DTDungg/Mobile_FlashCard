@@ -89,22 +89,27 @@ class _GameResultState extends State<GameResult> {
                             ),
                           ),
                         ])
-                  : Center(
-                      child: Text(
-                        'You lose!',
-                        style: GoogleFonts.rubikBubbles(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                          fontSize: 80,
-                          shadows: [
-                            Shadow(
-                              offset: Offset(3.0, 3.0), // Vị trí bóng
-                              blurRadius: 3.0, // Độ mờ của bóng
-                              color: Define.strongPurple, // Màu bóng
+                  : Column(
+                    children: [
+                      SizedBox(height: 150,),
+                      Center(
+                          child: Text(
+                            'You lose!',
+                            style: GoogleFonts.rubikBubbles(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                              fontSize: 80,
+                              shadows: [
+                                Shadow(
+                                  offset: Offset(3.0, 3.0), // Vị trí bóng
+                                  blurRadius: 3.0, // Độ mờ của bóng
+                                  color: Define.strongPurple, // Màu bóng
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),),
+                          ),),
+                    ],
+                  ),
             ),
             SizedBox(height: 50),
             ElevatedButton(
