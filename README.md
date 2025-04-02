@@ -8,17 +8,17 @@
 
 ## 🎯 Tính năng chính  
 ✅ **Trang chủ:** Hiển thị bảng thống kê và nhắc nhở ôn tập nhanh.  
-![Trang chủ](https://github.com/DTDungg/Mobile_FlashCard/demo_img/home_screen.png)
+![Trang chủ](demo_img/home_screen.png)
 ✅ **Quản lý thẻ & bộ thẻ:** Thêm, xóa, sửa thẻ và bộ thẻ.  
-![Thẻ ghi nhớ](https://github.com/DTDungg/Mobile_FlashCard/demo_img/lib_screen.png)
+![Thẻ ghi nhớ](demo_img/lib_screen.png)
 
 ✅ **Chơi game ôn tập:** Chọn cặp thẻ đồng nghĩa để ghi nhớ tốt hơn.  
-![Game ôn tập](https://github.com/DTDungg/Mobile_FlashCard/demo_img/game_screen.png)  
+![Game ôn tập](demo_img/game_screen.png)  
 
 ✅ **Cộng đồng người dùng:**  
    - Xem **bảng xếp hạng**.  
    - Tham khảo **bộ thẻ công khai** từ người dùng khác.  
-![Cộng đồng](https://github.com/DTDungg/Mobile_FlashCard/demo_img/community_screen.png)  
+![Cộng đồng](demo_img/community_screen.png)  
 
 ## 📥 Liên hệ  
 📧 Email: dorisdovn@gmail.com
