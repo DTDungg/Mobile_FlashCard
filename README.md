@@ -8,17 +8,18 @@
 
 ## 🎯 Tính năng chính  
 ✅ **Trang chủ:** Hiển thị bảng thống kê và nhắc nhở ôn tập nhanh.  
-![Trang chủ](demo_img/home_screen.png){width=300}
+<img src="demo_img/home_screen.png" alt="Trang chủ" width="300"/>
+
 ✅ **Quản lý thẻ & bộ thẻ:** Thêm, xóa, sửa thẻ và bộ thẻ.  
-![Thẻ ghi nhớ](demo_img/lib_screen.png){width=300}
+<img src="demo_img/lib_screen.png" alt="Quản lý thẻ" width="300"/>
 
 ✅ **Chơi game ôn tập:** Chọn cặp thẻ đồng nghĩa để ghi nhớ tốt hơn.  
-![Game ôn tập](demo_img/game_screen.png){width=300}
+<img src="demo_img/game_screen.png" alt="Game ôn tập" width="300"/>
 
 ✅ **Cộng đồng người dùng:**  
    - Xem **bảng xếp hạng**.  
    - Tham khảo **bộ thẻ công khai** từ người dùng khác.  
-![Cộng đồng](demo_img/community_screen.png){width=300}
+<img src="demo_img/community_screen.png" alt="Cộng đồng" width="300"/>
 
 ## 📥 Liên hệ  
 📧 Email: dorisdovn@gmail.com
